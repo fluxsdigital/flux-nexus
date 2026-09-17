@@ -1,13 +1,12 @@
 # Flux Nexus
 
-Conversão do projeto **NR Nexus Landing Page**, criado no Google Stitch, para Next.js + TypeScript e preparado para deploy automático na Vercel.
+Landing page **NR Nexus** reconstruída em Next.js + TypeScript a partir da única tela atualmente exportável do projeto Google Stitch.
 
-## Rotas
+## Rota
 
-- `/` — direção visual principal
-- `/blueprint` — variação Dark Technical Blueprint
+- `/` — landing page Dark Technical Blueprint
 
-Na sincronização mais recente, a API do Stitch disponibilizou HTML exportável para duas telas atuais. As duas entregas foram preservadas integralmente e expostas como rotas; variantes removidas no Stitch também foram retiradas deste projeto.
+O projeto usa componentes React reais organizados por seção (`Header`, `Hero`, `MainSections` e `Footer`). Não há `iframe`, `srcDoc`, HTML bruto em `public` ou dependência de CDN. Os ícones são SVGs acessíveis renderizados pelo componente `Icon`; logo e favicon estão empacotados localmente.
 
 ## Desenvolvimento
 
@@ -16,6 +15,6 @@ npm install
 npm run dev
 ```
 
-Node.js 20.9 ou superior. A Vercel deve usar o diretório raiz do repositório, reconhecer Next.js automaticamente e executar `npm run build`.
+Requer Node.js 20.9 ou superior. Para Vercel, use a raiz do repositório, framework Next.js e branch `main`.
 
-Os documentos exportados estão em `public/stitch`. Eles são renderizados por `components/StitchScreen.tsx` em contexto isolado, preservando o CSS, o Tailwind e o comportamento original sem interferência entre variantes. A fonte dos Material Symbols está empacotada em `public/fonts`, evitando que as ligaturas dos ícones apareçam como texto quando a fonte externa não estiver disponível.
+O material bruto do Stitch é mantido fora do repositório em `../source-stitch`, apenas como referência de auditoria.

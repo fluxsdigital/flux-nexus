@@ -1,5 +1,8 @@
-import { StitchScreen } from "@/components/StitchScreen";
+import { Header } from "@/components/Header";
+import { Hero } from "@/components/Hero";
+import { MainSections } from "@/components/MainSections";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
-  return <StitchScreen title="NR Nexus" source="/stitch/principal/code.html" />;
+  return <><Header /><main><Hero /><MainSections /></main><Footer /></>;
 }
