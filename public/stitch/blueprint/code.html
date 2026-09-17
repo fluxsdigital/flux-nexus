@@ -1,0 +1,1144 @@
+<!DOCTYPE html><html class="scroll-smooth antialiased selection:bg-[#f26522] selection:text-white dark" lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NR NEXUS — Gestão de Inspeções e Laudos NR-13</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="assets/css2-a876c7c04d7e7b95989b0b50b118fbd2" rel="stylesheet">
+<link href="assets/css2-5921624bf5bbe4c8c091ef09226fa76f" rel="stylesheet">
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Geist', sans-serif;
+      }
+      body { overscroll-behavior: none; }
+    }
+    
+    /* Technical cyber slate blueprint grid */
+    .bg-tech-blueprint {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 210, 180, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 210, 180, 0.05) 1px, transparent 1px);
+    }
+    
+    .bg-tech-microgrid {
+      background-size: 16px 16px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    }
+    
+    /* Precision corner brackets */
+    .corner-brackets {
+      position: relative;
+    }
+    .corner-brackets::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 10px;
+      height: 10px;
+      border-top: 2px solid #f26522;
+      border-left: 2px solid #f26522;
+      pointer-events: none;
+    }
+    .corner-brackets::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 10px;
+      height: 10px;
+      border-bottom: 2px solid #00d2b4;
+      border-right: 2px solid #00d2b4;
+      pointer-events: none;
+    }
+
+    /* Cyber slate glass styling */
+    .cyber-slate-card {
+      background: linear-gradient(135deg, rgba(14, 23, 39, 0.85) 0%, rgba(7, 13, 24, 0.95) 100%);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    
+    .cyber-slate-card:hover {
+      border-color: rgba(242, 101, 34, 0.45);
+      box-shadow: 0 0 25px rgba(242, 101, 34, 0.12), inset 0 0 15px rgba(0, 210, 180, 0.04);
+    }
+
+    @keyframes subtleHUDScan {
+      0% { transform: translateY(-100%); opacity: 0; }
+      50% { opacity: 0.35; }
+      100% { transform: translateY(1000%); opacity: 0; }
+    }
+    .hud-scan-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00d2b4, #f26522, transparent);
+      animation: subtleHUDScan 7s linear infinite;
+      pointer-events: none;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: "#f26522",
+              hover: "#fa7435",
+              glow: "rgba(242, 101, 34, 0.45)",
+              subtle: "rgba(242, 101, 34, 0.1)"
+            },
+            tech: {
+              cyan: "#00d2b4",
+              slate: "#070d18",
+              surface: "#0c1626",
+              border: "#1e293b",
+              active: "#16253b"
+            }
+          },
+          fontFamily: {
+            sans: ["Geist", "system-ui", "-apple-system", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#070d18] text-slate-300 font-sans antialiased overflow-x-hidden selection:bg-[#f26522] selection:text-white">
+<!-- ==================== HEADER TECHNICAL HUD ==================== -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-[#070d18]/90 backdrop-blur-2xl border-b border-slate-800/80 transition-all duration-300">
+<div class="h-20 max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between gap-6">
+<!-- Brand / Logo Oficial -->
+<a class="flex items-center gap-3.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f26522] rounded-xl" data-path="landing-page" href="#">
+<div class="relative overflow-hidden rounded-xl bg-black/80 p-1.5 ring-1 ring-slate-700/60 group-hover:ring-[#f26522]/60 group-hover:shadow-[0_0_20px_rgba(242,101,34,0.3)] transition-all duration-300">
+<img alt="Logo Completo NR Nexus" class="h-7 w-auto object-contain" src="assets/AB6AXuBD8PyGzTmKwLTQLOB70836KiZXe2xmLLGh1FFw9YXBBQUlyOP0F06iEGD5BqqBgfFTHmzi0aE5x3wQT2DvHHzt-E4a2xxr-9cf2a28fb4e7300b77a604f61dbbcef6">
+</div>
+<div class="flex items-center gap-2">
+<span class="font-bold text-lg tracking-tight text-white flex items-center gap-2">
+          NR NEXUS
+        </span>
+<span class="text-[10px] font-mono tracking-widest font-semibold text-[#f26522] bg-[#f26522]/10 border border-[#f26522]/30 px-2 py-0.5 rounded-md">
+          NR-13
+        </span>
+</div>
+</a>
+<!-- Navigation Links HUD -->
+<nav class="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-wider">
+<a class="text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-1.5" data-path="solucao" href="#solucao">
+<span class="text-[#00d2b4] text-[10px]">//</span> Solução
+      </a>
+<a class="text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-1.5" data-path="recursos" href="#recursos">
+<span class="text-[#00d2b4] text-[10px]">//</span> Recursos
+      </a>
+<a class="text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-1.5" data-path="como-funciona" href="#como-funciona">
+<span class="text-[#00d2b4] text-[10px]">//</span> Como funciona
+      </a>
+<a class="text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-1.5" data-path="faq" href="#faq">
+<span class="text-[#00d2b4] text-[10px]">//</span> FAQ
+      </a>
+</nav>
+<!-- Right Action CTAs -->
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 text-[11px] font-mono text-slate-400 border border-slate-800 bg-[#0c1626] px-2.5 py-1 rounded-lg">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00d2b4] animate-pulse"></span>
+<span>SYS.OK</span>
+</div>
+<a class="relative group inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#f26522] text-white text-xs font-semibold tracking-wide shadow-[0_0_24px_rgba(242,101,34,0.4)] hover:shadow-[0_0_35px_rgba(242,101,34,0.65)] hover:bg-[#fa7435] active:scale-[0.98] transition-all duration-200 overflow-hidden" data-path="comecar" href="#comecar">
+<span class="absolute inset-0 w-full h-full bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+<span class="relative">Começar agora</span>
+</a>
+<div class="w-9 h-9 rounded-xl bg-[#0c1626] border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#f26522]/40 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[19px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<main class="w-full pt-20">
+<!-- ==================== HERO SECTION (HIGH PRECISION CYBER COCKPIT) ==================== -->
+<section class="relative overflow-hidden pt-16 md:pt-24 pb-28 bg-[#070d18] bg-tech-blueprint border-b border-slate-800">
+<!-- HUD background telemetry overlay -->
+<div class="absolute inset-0 bg-tech-microgrid opacity-40 pointer-events-none"></div>
+<div class="hud-scan-line"></div>
+<div class="absolute top-0 right-0 bottom-0 w-full lg:w-[740px] pointer-events-none z-0 overflow-hidden opacity-50 mix-blend-luminosity lg:mix-blend-normal">
+<img alt="Engenheiro Mecânico Industrial NR-13 realizando inspeção técnica" class="w-full h-full object-cover object-top filter contrast-125 brightness-95" src="assets/AEtjO1XcQMpagUbZEuw0PLPMCIBUsoTY7fCJpFnxOl8i1ISwzMl0Z9fp3WOzHpVxjzIRSHno3v0hZXZcZ-JAlcMRO6LyQjBb_YAA-ef28265b31284f006eda36b6361a8491" style="-webkit-mask-image: radial-gradient(ellipse at 65% 42%, black 30%, rgba(0,0,0,0.5) 65%, transparent 90%), linear-gradient(to left, black 30%, rgba(0,0,0,0.3) 70%, transparent 100%), linear-gradient(to bottom, black 65%, transparent 98%); mask-image: radial-gradient(ellipse at 65% 42%, black 30%, rgba(0,0,0,0.5) 65%, transparent 90%), linear-gradient(to left, black 30%, rgba(0,0,0,0.3) 70%, transparent 100%), linear-gradient(to bottom, black 65%, transparent 98%);">
+<div class="absolute inset-0 bg-gradient-to-r from-[#070d18] via-[#070d18]/70 to-transparent pointer-events-none"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#070d18] via-transparent to-[#070d18]/80 pointer-events-none"></div>
+</div>
+<!-- Radial telemetry glow -->
+<div class="absolute -top-32 left-1/3 -translate-x-1/2 w-[800px] h-[550px] bg-gradient-to-b from-[#f26522]/15 via-[#00d2b4]/5 to-transparent rounded-full blur-[140px] pointer-events-none -z-10"></div>
+<div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center min-h-[640px] py-4">
+<!-- Hero Left: Tactical Content -->
+<div class="flex flex-col gap-6 lg:col-span-6 relative z-20">
+<div class="inline-flex items-center gap-2.5 self-start px-3.5 py-1.5 rounded-lg bg-[#0c1626]/95 border border-[#00d2b4]/30 backdrop-blur-md shadow-[0_2px_15px_rgba(0,0,0,0.7)]">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00d2b4] opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-[#00d2b4]"></span>
+</span>
+<span class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-200">Gestão de Inspeções e Laudos NR-13</span>
+<span class="w-1 h-1 rounded-full bg-slate-500"></span>
+<span class="text-[10px] font-mono text-[#f26522] font-bold tracking-wider bg-[#f26522]/15 px-2 py-0.5 rounded border border-[#f26522]/30">Conforme MTE</span>
+</div>
+<h1 class="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold text-white tracking-tight leading-[1.12]" style="text-shadow: 0 4px 30px rgba(7,13,24,0.95), 0 2px 10px rgba(0,0,0,0.9);">
+          Suas inspeções e laudos técnicos, <span class="text-[#f26522] inline-block underline decoration-[#f26522]/40 decoration-4 underline-offset-8">em um só lugar.</span>
+</h1>
+<p class="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-xl" style="text-shadow: 0 2px 18px rgba(7,13,24,0.95);">
+          Gerencie empresas, equipamentos, inspeções e emissão de laudos técnicos com muito mais organização, governança e controle operacional.
+        </p>
+<div class="flex flex-wrap items-center gap-4 pt-1">
+<a class="relative group inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-[#f26522] text-white text-sm font-semibold tracking-wide shadow-[0_12px_32px_rgba(242,101,34,0.4)] hover:shadow-[0_14px_42px_rgba(242,101,34,0.6)] hover:bg-[#fa7435] active:scale-[0.98] transition-all duration-200" href="#comecar">
+<span>Começar agora</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#0c1626]/90 hover:bg-[#121f36] text-slate-200 hover:text-white border border-slate-700/80 text-sm font-medium backdrop-blur-md transition-all duration-200 shadow-sm" href="#como-funciona">
+<span class="material-symbols-outlined text-[#00d2b4] text-[19px]">play_circle</span>
+<span>Ver demonstração interativa</span>
+</a>
+</div>
+<div class="inline-flex items-center gap-2.5 pt-1 text-slate-300">
+<span class="material-symbols-outlined text-[#00d2b4] text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-xs sm:text-sm text-slate-300 font-medium">Feito para a rotina de engenheiros mecânicos e inspetores NR-13.</span>
+</div>
+<!-- Metrics Matrix HUD -->
+<div class="grid grid-cols-3 gap-4 pt-4 mt-2 bg-[#0c1626]/90 border border-slate-800 backdrop-blur-xl p-4 sm:p-5 rounded-2xl shadow-xl corner-brackets">
+<div class="border-r border-slate-800 pr-3">
+<div class="font-bold text-xl sm:text-2xl text-white tracking-tight font-mono">+1.200</div>
+<div class="font-mono text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Laudos organizados</div>
+</div>
+<div class="border-r border-slate-800 pr-3">
+<div class="font-bold text-xl sm:text-2xl text-[#00d2b4] tracking-tight font-mono">100%</div>
+<div class="font-mono text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Conformidade NR-13</div>
+</div>
+<div>
+<div class="font-bold text-xl sm:text-2xl text-white tracking-tight font-mono">Zero</div>
+<div class="font-mono text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Planilhas soltas</div>
+</div>
+</div>
+</div>
+<!-- Hero Right: Cockpit Mockup Frame -->
+<div class="relative lg:col-span-6 flex flex-col items-center justify-center">
+<div class="relative w-full max-w-[560px]">
+<!-- Telemetry badges -->
+<div class="hidden sm:flex absolute -top-3 -left-3 z-30 items-center gap-2 bg-[#0c1626]/95 border border-[#00d2b4]/40 backdrop-blur-xl px-3.5 py-2 rounded-xl shadow-2xl">
+<div class="w-2 h-2 rounded-full bg-[#00d2b4] animate-pulse"></div>
+<span class="text-xs font-mono font-semibold text-slate-200">14 Concluídas este mês</span>
+<span class="text-[10px] text-[#00d2b4] bg-[#00d2b4]/10 border border-[#00d2b4]/25 px-1.5 py-0.5 rounded font-mono">+18%</span>
+</div>
+<div class="hidden sm:flex absolute -bottom-4 -right-3 z-30 items-center gap-2.5 bg-[#0c1626]/95 border border-[#f26522]/40 backdrop-blur-xl px-4 py-2.5 rounded-xl shadow-2xl">
+<span class="material-symbols-outlined text-[#f26522] text-[20px]">precision_manufacturing</span>
+<div>
+<div class="text-[11px] font-bold text-white leading-tight flex items-center gap-1.5">
+<span>Inspeção In Loco</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#f26522] animate-ping"></span>
+</div>
+<div class="text-[9px] text-slate-400 font-mono leading-tight mt-0.5">TAG: VP-12-C • Caldeiras e Vasos</div>
+</div>
+</div>
+<!-- The Interface Cockpit Card -->
+<div class="relative w-full bg-[#08101d] border border-slate-700/80 rounded-2xl shadow-[0_30px_90px_rgba(0,0,0,0.85),0_0_60px_rgba(0,210,180,0.08)] overflow-hidden z-20">
+<!-- Window Bar -->
+<div class="flex items-center justify-between px-4 py-3 bg-[#0c1626] border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-[#00d2b4] inline-block"></span>
+<span class="ml-2 font-mono text-[11px] text-slate-400 tracking-tight flex items-center gap-1.5">
+<span class="text-slate-200 font-medium">NR NEXUS</span> — Painel Operacional v2.4
+                </span>
+</div>
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1.5 text-[10px] font-mono font-medium bg-[#00d2b4]/10 text-[#00d2b4] border border-[#00d2b4]/25 px-2 py-0.5 rounded-md">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00d2b4] animate-pulse"></span>Conexão Ativa
+                </span>
+<img alt="Logo NR Nexus" class="h-3.5 w-auto object-contain opacity-90" src="assets/AB6AXuBF5UxgHJvtBmOng_s2wAQqZtcvP5oSXBD9tJ1YIzztlKnq-BvfYyLCg-1XfnHOvVNkgpzz5zk0tMHRfwr51Iy4ErcF0yPB-eaad3e3d3450eefff4c92f2574f03cd4">
+</div>
+</div>
+<!-- Cockpit Workspace -->
+<div class="p-4 sm:p-5 bg-[#070d18] flex flex-col gap-3.5 font-sans">
+<!-- Subheader row -->
+<div class="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-[#0c1626]/80 border border-slate-800 rounded-xl">
+<div>
+<div class="font-mono text-[10px] text-slate-400 uppercase tracking-widest">Eng. Responsável Habilitado</div>
+<div class="text-xs font-semibold text-white flex items-center gap-1.5 mt-0.5">
+<span>Dr. Carlos Eduardo Menezes</span>
+<span class="text-[10px] text-slate-400 font-mono bg-white/5 px-1.5 py-0.5 rounded border border-slate-700">(CREA-SP 506.892)</span>
+</div>
+</div>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#f26522] hover:bg-[#fa7435] text-white font-mono text-[11px] font-medium shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">add</span>
+<span>Nova Inspeção</span>
+</button>
+</div>
+<!-- 4 Stat Counters -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+<div class="p-3 bg-[#0c1626] border border-slate-800 rounded-xl">
+<span class="font-mono text-[10px] text-slate-400 block uppercase">Equipamentos</span>
+<div class="text-xl font-bold text-white tracking-tight leading-none mt-1.5 mb-1 font-mono">348</div>
+<span class="text-[10px] text-slate-400 block truncate">Caldeiras e Vasos</span>
+</div>
+<div class="p-3 bg-[#0c1626] border border-slate-800 rounded-xl">
+<span class="font-mono text-[10px] text-slate-400 block uppercase">Empresas</span>
+<div class="text-xl font-bold text-white tracking-tight leading-none mt-1.5 mb-1 font-mono">42</div>
+<span class="text-[10px] text-[#00d2b4] font-medium flex items-center gap-1">
+<span class="w-1 h-1 rounded-full bg-[#00d2b4]"></span>Todas ativas
+                  </span>
+</div>
+<div class="p-3 bg-[#0c1626] border border-slate-800 rounded-xl">
+<span class="font-mono text-[10px] text-slate-400 block uppercase">Concluídas</span>
+<div class="text-xl font-bold text-white tracking-tight leading-none mt-1.5 mb-1 font-mono">1.280</div>
+<span class="text-[10px] text-[#00d2b4] font-mono">+14 este mês</span>
+</div>
+<div class="p-3 bg-[#131b2e] border border-[#f26522]/35 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-7 h-7 bg-[#f26522]/15 rounded-bl-lg flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-[#f26522] animate-ping"></span>
+</div>
+<span class="font-mono text-[10px] text-slate-300 block uppercase">Laudos a Emitir</span>
+<div class="text-xl font-bold text-[#f26522] tracking-tight leading-none mt-1.5 mb-1 font-mono">6</div>
+<span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-[#f26522]/20 text-[#fa7435] uppercase tracking-wider">Prioritário</span>
+</div>
+</div>
+<!-- List section -->
+<div class="bg-[#0c1626] border border-slate-800 rounded-xl p-3">
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#f26522] text-[17px]">fact_check</span>
+<span class="text-xs text-white font-semibold tracking-tight">Inspeções Recentes</span>
+</div>
+<span class="font-mono text-[10px] text-[#f26522] hover:underline cursor-pointer">Ver todos (18)</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-[#00d2b4]/10 border border-[#00d2b4]/25 flex items-center justify-center text-[#00d2b4]">
+<span class="material-symbols-outlined text-[16px]">water_drop</span>
+</div>
+<div>
+<div class="text-xs text-white font-medium">Caldeira Aquatubular B-04</div>
+<div class="font-mono text-[10px] text-slate-400">PetroValle S/A • TAG: CLD-04</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[9px] bg-[#00d2b4]/10 border border-[#00d2b4]/30 text-[#00d2b4] font-semibold font-mono">CONCLUÍDA</span>
+<span class="px-2 py-0.5 rounded text-[9px] bg-slate-800 text-slate-300 font-mono">Laudo Emitido</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-[#f26522]/10 border border-[#f26522]/25 flex items-center justify-center text-[#f26522]">
+<span class="material-symbols-outlined text-[16px]">compress</span>
+</div>
+<div>
+<div class="text-xs text-white font-medium">Vaso de Pressão VP-12</div>
+<div class="font-mono text-[10px] text-slate-400">Termoquímica Sul • TAG: VP-12-C</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[9px] bg-[#f26522]/15 border border-[#f26522]/30 text-[#fa7435] font-semibold font-mono">EM ANDAMENTO</span>
+<span class="px-2 py-0.5 rounded text-[9px] bg-slate-800 text-slate-300 font-mono">Em elaboração</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
+<span class="material-symbols-outlined text-[16px]">storage</span>
+</div>
+<div>
+<div class="text-xs text-white font-medium">Tanque Metálico TK-08</div>
+<div class="font-mono text-[10px] text-slate-400">Cervejaria Central • TAG: TNQ-08</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[9px] bg-slate-800 text-slate-400 font-semibold font-mono">AGUARDANDO</span>
+<span class="px-2 py-0.5 rounded text-[9px] bg-rose-500/15 border border-rose-500/25 text-rose-300 font-mono">Pendente</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom telemetry rate -->
+<div class="p-2.5 bg-[#0c1626] border border-slate-800 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#f26522] text-[18px]">donut_small</span>
+<span class="text-xs text-slate-300 font-medium">Taxa de Eficiência de Emissão NR-13</span>
+</div>
+<div class="flex items-center gap-2.5">
+<div class="w-24 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+<div class="h-full bg-gradient-to-r from-[#f26522] to-[#00d2b4] rounded-full" style="width: 94%;"></div>
+</div>
+<span class="font-mono text-xs text-[#00d2b4] font-semibold">94%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 2: O PROBLEMA (TECHNICAL DOSSIER & ALERT CARDS) ==================== -->
+<section class="py-24 bg-[#091120] text-slate-300 bg-tech-microgrid relative border-b border-slate-800">
+<div class="max-w-7xl mx-auto px-6 sm:px-8">
+<div class="max-w-3xl mx-auto text-center mb-16">
+<span class="font-mono text-xs text-[#f26522] font-semibold uppercase tracking-widest bg-[#f26522]/10 border border-[#f26522]/25 px-3.5 py-1 rounded-full inline-block">
+        Desafios da Operação Técnica
+      </span>
+<h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">
+        Pare de controlar suas inspeções de forma espalhada.
+      </h2>
+<p class="text-base sm:text-lg text-slate-400 mt-3.5 leading-relaxed">
+        Planilhas, documentos, informações de equipamentos e acompanhamento de laudos podem transformar uma rotina técnica em uma operação difícil de controlar.
+      </p>
+</div>
+<!-- 3 Cards: Os Problemas em Cyber Slate Dossier Layout -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+<!-- Problem 1 -->
+<div class="p-8 rounded-2xl cyber-slate-card flex flex-col justify-between group corner-brackets">
+<div>
+<div class="flex items-center justify-between mb-6">
+<div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">folder_off</span>
+</div>
+<span class="text-[10px] font-mono text-rose-400 border border-rose-500/30 px-2 py-0.5 rounded bg-rose-500/10">ERR_DISPERSION</span>
+</div>
+<h3 class="text-xl font-bold text-white tracking-tight">
+            Informações espalhadas
+          </h3>
+<p class="text-sm sm:text-base text-slate-400 mt-2.5 leading-relaxed">
+            Empresas, equipamentos e inspeções difíceis de acompanhar, dispersos em pastas locais, e-mails e anotações avulsas.
+          </p>
+</div>
+<div class="mt-8 pt-4 border-t border-slate-800 flex items-center gap-2 text-rose-300 font-mono text-xs bg-rose-950/30 border border-rose-900/40 px-3 py-2 rounded-lg">
+<span class="material-symbols-outlined text-[15px] text-rose-400">close</span>
+<span class="font-medium">Risco de perda de histórico crítico</span>
+</div>
+</div>
+<!-- Problem 2 -->
+<div class="p-8 rounded-2xl cyber-slate-card flex flex-col justify-between group corner-brackets">
+<div>
+<div class="flex items-center justify-between mb-6">
+<div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">table_chart_view</span>
+</div>
+<span class="text-[10px] font-mono text-rose-400 border border-rose-500/30 px-2 py-0.5 rounded bg-rose-500/10">ERR_MANUAL_EFFORT</span>
+</div>
+<h3 class="text-xl font-bold text-white tracking-tight">
+            Controle manual
+          </h3>
+<p class="text-sm sm:text-base text-slate-400 mt-2.5 leading-relaxed">
+            Muito tempo gasto atualizando planilhas e redigindo documentos repetitivos que não se integram entre si.
+          </p>
+</div>
+<div class="mt-8 pt-4 border-t border-slate-800 flex items-center gap-2 text-rose-300 font-mono text-xs bg-rose-950/30 border border-rose-900/40 px-3 py-2 rounded-lg">
+<span class="material-symbols-outlined text-[15px] text-rose-400">close</span>
+<span class="font-medium">Horas perdidas em digitação mecânica</span>
+</div>
+</div>
+<!-- Problem 3 -->
+<div class="p-8 rounded-2xl cyber-slate-card flex flex-col justify-between group corner-brackets">
+<div>
+<div class="flex items-center justify-between mb-6">
+<div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">pending_actions</span>
+</div>
+<span class="text-[10px] font-mono text-rose-400 border border-rose-500/30 px-2 py-0.5 rounded bg-rose-500/10">ERR_DEADLINE_RISK</span>
+</div>
+<h3 class="text-xl font-bold text-white tracking-tight">
+            Laudos pendentes
+          </h3>
+<p class="text-sm sm:text-base text-slate-400 mt-2.5 leading-relaxed">
+            Dificuldade para saber rapidamente quais inspeções ainda precisam de laudo e prazos de validade quase vencendo.
+          </p>
+</div>
+<div class="mt-8 pt-4 border-t border-slate-800 flex items-center gap-2 text-rose-300 font-mono text-xs bg-rose-950/30 border border-rose-900/40 px-3 py-2 rounded-lg">
+<span class="material-symbols-outlined text-[15px] text-rose-400">close</span>
+<span class="font-medium">Insegurança regulatória e atrasos</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 3: A SOLUÇÃO (MODULAR PRECISION BENTO GRID) ==================== -->
+<section class="py-24 bg-[#070d18] relative border-b border-slate-800" id="solucao">
+<div class="max-w-7xl mx-auto px-6 sm:px-8">
+<div class="max-w-3xl mb-16">
+<span class="font-mono text-xs text-[#00d2b4] font-semibold uppercase tracking-widest bg-[#00d2b4]/10 border border-[#00d2b4]/30 px-3.5 py-1 rounded-full inline-block">
+        Solução Integrada
+      </span>
+<h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">
+        Tudo o que você precisa para organizar sua operação técnica.
+      </h2>
+<p class="text-base sm:text-lg text-slate-400 mt-3.5 leading-relaxed">
+        Do cadastro da empresa à emissão do laudo, o NR Nexus centraliza sua operação em um único sistema feito sob medida.
+      </p>
+</div>
+<!-- Bento Grid 5 Pilares no Estilo Cyber Slate Técnico -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Pilar 1: Empresas (Span 6) -->
+<div class="md:col-span-6 p-8 cyber-slate-card rounded-2xl flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522] mb-6 shadow-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">corporate_fare</span>
+</div>
+<h3 class="text-xl font-bold text-white tracking-tight">Empresas</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm sm:text-base">
+            Cadastre e organize as empresas atendidas com histórico completo de plantas industriais, contatos e vistorias prévias.
+          </p>
+</div>
+<div class="mt-8 bg-[#08101d] border border-slate-800 p-3.5 rounded-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-[#f26522] text-[18px]">badge</span>
+<span class="font-mono text-xs text-slate-300">CNPJ, Razão Social, Responsáveis Técnicos e Histórico Consolidado</span>
+</div>
+</div>
+<!-- Pilar 2: Equipamentos (Span 6) -->
+<div class="md:col-span-6 p-8 cyber-slate-card rounded-2xl flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522] mb-6 shadow-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">precision_manufacturing</span>
+</div>
+<h3 class="text-xl font-bold text-white tracking-tight">Equipamentos</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm sm:text-base">
+            Mantenha todos os equipamentos dos seus clientes organizados por categoria, TAG, localização técnica e categoria de risco NR-13.
+          </p>
+</div>
+<div class="mt-8 bg-[#08101d] border border-slate-800 p-3.5 rounded-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-[#f26522] text-[18px]">label</span>
+<span class="font-mono text-xs text-slate-300">Caldeiras, Vasos I a V, Tubulações e Tanques de Armazenamento</span>
+</div>
+</div>
+<!-- Pilar 3: Inspeções (Span 4) -->
+<div class="md:col-span-4 p-7 cyber-slate-card rounded-2xl flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522] mb-6 shadow-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">rule</span>
+</div>
+<h3 class="text-lg font-bold text-white tracking-tight">Inspeções</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm">
+            Registre e acompanhe cada inspeção realizada com checklist estruturado, medição de espessura e registro de evidências.
+          </p>
+</div>
+<div class="mt-6 flex items-center gap-2 text-[#00d2b4] bg-[#00d2b4]/10 border border-[#00d2b4]/25 px-3 py-2 rounded-lg text-xs font-semibold">
+<span class="material-symbols-outlined text-[16px] text-[#00d2b4]">verified</span>
+<span>Inspeções Internas, Externas e TH</span>
+</div>
+</div>
+<!-- Pilar 4: Laudos Técnicos (Span 4) -->
+<div class="md:col-span-4 p-7 cyber-slate-card rounded-2xl flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522] mb-6 shadow-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">description</span>
+</div>
+<h3 class="text-lg font-bold text-white tracking-tight">Laudos Técnicos</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm">
+            Organize a emissão dos laudos após a inspeção com rastreabilidade completa, parecer conclusivo e registro de ART.
+          </p>
+</div>
+<div class="mt-6 flex items-center gap-2 text-[#00d2b4] bg-[#00d2b4]/10 border border-[#00d2b4]/25 px-3 py-2 rounded-lg text-xs font-semibold">
+<span class="material-symbols-outlined text-[16px] text-[#00d2b4]">verified</span>
+<span>Pronto para validação e assinatura</span>
+</div>
+</div>
+<!-- Pilar 5: Acompanhamento (Span 4) -->
+<div class="md:col-span-4 p-7 cyber-slate-card rounded-2xl flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522] mb-6 shadow-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">insights</span>
+</div>
+<h3 class="text-lg font-bold text-white tracking-tight">Acompanhamento</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm">
+            Saiba o que está aguardando, em andamento, concluído e pendente de laudo em tempo real com filtros rápidos.
+          </p>
+</div>
+<div class="mt-6 flex items-center gap-2 text-[#00d2b4] bg-[#00d2b4]/10 border border-[#00d2b4]/25 px-3 py-2 rounded-lg text-xs font-semibold">
+<span class="material-symbols-outlined text-[16px] text-[#00d2b4]">verified</span>
+<span>Visibilidade 360° do fluxo operacional</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 4: COMO FUNCIONA (PIPELINE CIRCUIT RIBBON) ==================== -->
+<section class="py-24 bg-[#091120] text-white relative overflow-hidden border-b border-slate-800" id="como-funciona">
+<div class="absolute inset-0 bg-tech-blueprint opacity-25 pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+<div class="max-w-3xl mx-auto text-center mb-20">
+<span class="font-mono text-xs text-[#f26522] font-semibold uppercase tracking-widest bg-[#f26522]/15 border border-[#f26522]/30 px-3.5 py-1 rounded-full inline-block">
+        Fluxo Simplificado
+      </span>
+<h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">
+        Da inspeção ao laudo, sem complicação.
+      </h2>
+<p class="text-base sm:text-lg text-slate-400 mt-3.5 leading-relaxed">
+        Um roteiro linear e estruturado para você não se perder em burocracias e focar na engenharia.
+      </p>
+</div>
+<!-- 4 Step Cards with Circuit Connecting Pipeline -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="hidden lg:block absolute top-[52px] left-14 right-14 h-[2px] bg-gradient-to-r from-[#f26522] via-[#00d2b4] to-[#00d2b4] z-0 opacity-40"></div>
+<!-- Step 1 -->
+<div class="relative z-10 p-7 bg-[#0c1626]/90 border border-slate-800 rounded-2xl backdrop-blur-md flex flex-col justify-between group hover:border-[#f26522]/50 hover:bg-[#121f36] transition-all duration-300">
+<div>
+<div class="flex items-center justify-between mb-6">
+<span class="font-mono text-xl text-[#f26522] font-bold bg-[#f26522]/10 w-11 h-11 rounded-xl flex items-center justify-center border border-[#f26522]/30">01</span>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white transition-colors text-[24px]">domain_add</span>
+</div>
+<h3 class="text-lg font-bold text-white tracking-tight">Cadastre</h3>
+<p class="text-slate-400 mt-2.5 leading-relaxed text-sm">
+            Cadastre as empresas e equipamentos dos seus clientes com todas as especificações técnicas e dados de placa.
+          </p>
+</div>
+<div class="mt-8 pt-3.5 border-t border-slate-800 text-[#f26522] font-mono text-xs flex items-center justify-between">
+<span>Passo 1 de 4</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 p-7 bg-[#0c1626]/90 border border-slate-800 rounded-2xl backdrop-blur-md flex flex-col justify-between group hover:border-[#f26522]/50 hover:bg-[#121f36] transition-all duration-300">
+<div>
+<div class="flex items-center justify-between mb-6">
+<span class="font-mono text-xl text-[#f26522] font-bold bg-[#f26522]/10 w-11 h-11 rounded-xl flex items-center justify-center border border-[#f26522]/30">02</span>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white transition-colors text-[24px]">assignment_turned_in</span>
+</div>
+<h3 class="text-lg font-bold text-white tracking-tight">Inspecione</h3>
+<p class="text-slate-400 mt-2.5 leading-relaxed text-sm">
+            Registre as informações da inspeção diretamente no sistema: dados visuais, ensaios, testes de pressão e medições.
+          </p>
+</div>
+<div class="mt-8 pt-3.5 border-t border-slate-800 text-[#f26522] font-mono text-xs flex items-center justify-between">
+<span>Passo 2 de 4</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 p-7 bg-[#0c1626]/90 border border-slate-800 rounded-2xl backdrop-blur-md flex flex-col justify-between group hover:border-[#f26522]/50 hover:bg-[#121f36] transition-all duration-300">
+<div>
+<div class="flex items-center justify-between mb-6">
+<span class="font-mono text-xl text-[#f26522] font-bold bg-[#f26522]/10 w-11 h-11 rounded-xl flex items-center justify-center border border-[#f26522]/30">03</span>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white transition-colors text-[24px]">visibility</span>
+</div>
+<h3 class="text-lg font-bold text-white tracking-tight">Acompanhe</h3>
+<p class="text-slate-400 mt-2.5 leading-relaxed text-sm">
+            Tenha uma visão clara e em tempo real do andamento de cada inspeção e das pendências de documentação técnica.
+          </p>
+</div>
+<div class="mt-8 pt-3.5 border-t border-slate-800 text-[#f26522] font-mono text-xs flex items-center justify-between">
+<span>Passo 3 de 4</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="relative z-10 p-7 bg-[#0c1626]/90 border border-slate-800 rounded-2xl backdrop-blur-md flex flex-col justify-between group hover:border-[#00d2b4]/50 hover:bg-[#121f36] transition-all duration-300">
+<div>
+<div class="flex items-center justify-between mb-6">
+<span class="font-mono text-xl text-[#00d2b4] font-bold bg-[#00d2b4]/10 w-11 h-11 rounded-xl flex items-center justify-center border border-[#00d2b4]/30">04</span>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white transition-colors text-[24px]">print</span>
+</div>
+<h3 class="text-lg font-bold text-white tracking-tight">Emita</h3>
+<p class="text-slate-400 mt-2.5 leading-relaxed text-sm">
+            Organize e agilize a emissão do laudo técnico com parecer conclusivo, recomendações e prazo de próxima inspeção.
+          </p>
+</div>
+<div class="mt-8 pt-3.5 border-t border-slate-800 text-[#00d2b4] font-mono text-xs flex items-center justify-between">
+<span>Passo 4 de 4</span>
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 5: BENEFÍCIOS (HIGH CONTRAST CYBER SLATE CARDS) ==================== -->
+<section class="py-24 bg-[#070d18] text-slate-300 bg-tech-microgrid border-b border-slate-800" id="recursos">
+<div class="max-w-7xl mx-auto px-6 sm:px-8">
+<div class="max-w-3xl mb-16">
+<span class="font-mono text-xs text-[#f26522] font-semibold uppercase tracking-widest bg-[#f26522]/10 border border-[#f26522]/25 px-3.5 py-1 rounded-full inline-block">
+        Ganhos Imediatos
+      </span>
+<h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">
+        Mais controle. Menos trabalho operacional.
+      </h2>
+<p class="text-base sm:text-lg text-slate-400 mt-3.5 leading-relaxed">
+        Substitua o estresse de prazos incertos pela tranquilidade de uma gestão técnica centralizada e automatizada.
+      </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+<!-- Benefício 1: Organização Completa -->
+<div class="p-8 cyber-slate-card rounded-2xl flex flex-col md:flex-row items-start gap-6 hover:border-[#f26522]/40 transition-all">
+<div class="w-14 h-14 shrink-0 rounded-2xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522]">
+<span class="material-symbols-outlined text-[30px]">inventory_2</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white tracking-tight">Organização Completa</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm sm:text-base">
+            Todas as informações da sua operação em um único lugar: fichas de equipamentos, prontuários, registros de segurança e relatórios.
+          </p>
+<div class="mt-5 flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">Sem duplicidade</span>
+<span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">Acesso em 1 clique</span>
+</div>
+</div>
+</div>
+<!-- Benefício 2: Visibilidade Operacional -->
+<div class="p-8 cyber-slate-card rounded-2xl flex flex-col md:flex-row items-start gap-6 hover:border-[#f26522]/40 transition-all">
+<div class="w-14 h-14 shrink-0 rounded-2xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522]">
+<span class="material-symbols-outlined text-[30px]">tune</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white tracking-tight">Visibilidade Operacional</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm sm:text-base">
+            Saiba exatamente quais inspeções estão aguardando, em andamento ou concluídas, eliminando pontos cegos na sua rotina.
+          </p>
+<div class="mt-5 flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">Status em tempo real</span>
+<span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">Painel unificado</span>
+</div>
+</div>
+</div>
+<!-- Benefício 3: Produtividade Aumentada -->
+<div class="p-8 cyber-slate-card rounded-2xl flex flex-col md:flex-row items-start gap-6 hover:border-[#00d2b4]/40 transition-all">
+<div class="w-14 h-14 shrink-0 rounded-2xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#00d2b4]">
+<span class="material-symbols-outlined text-[30px]">speed</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white tracking-tight">Produtividade Aumentada</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm sm:text-base">
+            Reduza tarefas manuais e o tempo gasto procurando informações em computadores, mensagens de WhatsApp e drives desorganizados.
+          </p>
+<div class="mt-5 flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-[#00d2b4]/10 border border-[#00d2b4]/30 text-xs font-mono text-[#00d2b4] font-semibold">-60% tempo em relatórios</span>
+<span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">Agilidade de campo</span>
+</div>
+</div>
+</div>
+<!-- Benefício 4: Padronização Profissional -->
+<div class="p-8 cyber-slate-card rounded-2xl flex flex-col md:flex-row items-start gap-6 hover:border-[#f26522]/40 transition-all">
+<div class="w-14 h-14 shrink-0 rounded-2xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522]">
+<span class="material-symbols-outlined text-[30px]">verified_user</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white tracking-tight">Padronização Profissional</h3>
+<p class="text-slate-400 mt-2 leading-relaxed text-sm sm:text-base">
+            Tenha uma rotina técnica consistente para suas inspeções e emissão de laudos, transmitindo autoridade máxima para seus clientes.
+          </p>
+<div class="mt-5 flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">Rigor metodológico</span>
+<span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">Padrão pericial</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 6: DASHBOARD EM DETALHE (TERMINAL HUD VIEW) ==================== -->
+<section class="py-24 bg-[#091120] overflow-hidden border-b border-slate-800">
+<div class="max-w-7xl mx-auto px-6 sm:px-8">
+<div class="max-w-3xl mx-auto text-center mb-16">
+<span class="font-mono text-xs text-[#00d2b4] font-semibold uppercase tracking-widest bg-[#00d2b4]/10 border border-[#00d2b4]/30 px-3.5 py-1 rounded-full inline-block">
+        Interface de Alta Precisão
+      </span>
+<h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">
+        Tenha uma visão completa da sua operação.
+      </h2>
+<p class="text-base sm:text-lg text-slate-400 mt-3.5 leading-relaxed">
+        Acompanhe suas inspeções, equipamentos e laudos em uma interface simples, limpa e extremamente objetiva.
+      </p>
+</div>
+<!-- Extended Cyber Slate Mockup Terminal -->
+<div class="relative max-w-5xl mx-auto bg-[#070d18] border border-slate-700/80 rounded-3xl shadow-[0_24px_70px_rgba(0,0,0,0.6)] p-6 md:p-8 corner-brackets">
+<!-- Simulated Top App Chrome -->
+<div class="flex items-center justify-between pb-6 border-b border-slate-800">
+<div class="flex items-center gap-3">
+<div class="bg-black/60 p-1.5 rounded-lg border border-slate-700">
+<img alt="NR Nexus" class="h-5 w-auto object-contain" src="assets/AB6AXuCi6qXun1dZDSKTN6j8p3T3Axt0I-EnQACNIZP3gSId64eW_Tp0rGdlsMEArpSN1Kq3eh56mtC1yYo36CUxCHOPb8vnxghO-6793f87ff6efd83f90071abf9822e041">
+</div>
+<span class="font-mono text-xs bg-slate-800/80 text-slate-300 px-3 py-1 rounded-md border border-slate-700">Módulo Engenharia Industrial</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#00d2b4] animate-pulse"></span>
+<span class="font-mono text-xs text-slate-400">Sincronizado há 2 min</span>
+</div>
+</div>
+<!-- 4 Feature Callouts Grid Terminal -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+<!-- Callout 1 -->
+<div class="p-5 bg-[#0c1626] border border-slate-800 rounded-2xl relative overflow-hidden group hover:border-[#f26522]/40 transition-all">
+<div class="flex items-start justify-between">
+<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#f26522] text-white font-mono font-bold text-xs">1</span>
+<span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-slate-800 text-slate-300">TEMPO REAL</span>
+</div>
+<h4 class="text-base font-bold text-white tracking-tight mt-4">Inspeções em andamento</h4>
+<p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Inspeções pendentes e em andamento com prazos de vigência e datas de execução visíveis com clareza.
+          </p>
+<div class="mt-4 p-2.5 bg-slate-900/80 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 flex items-center justify-between">
+<span>9 inspeções agendadas para esta semana</span>
+<span class="text-[#f26522] font-semibold flex items-center gap-1">Ver agenda →</span>
+</div>
+</div>
+<!-- Callout 2 -->
+<div class="p-5 bg-[#0c1626] border border-slate-800 rounded-2xl relative overflow-hidden group hover:border-[#f26522]/40 transition-all">
+<div class="flex items-start justify-between">
+<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#f26522] text-white font-mono font-bold text-xs">2</span>
+<span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#f26522]/20 text-[#fa7435]">CONTROLE RIGOROSO</span>
+</div>
+<h4 class="text-base font-bold text-white tracking-tight mt-4">Laudos aguardando emissão</h4>
+<p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Fila priorizada de relatórios pendentes para nunca perder prazos regulatórios nem compromissos contratuais.
+          </p>
+<div class="mt-4 p-2.5 bg-slate-900/80 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 flex items-center justify-between">
+<span>6 laudos aguardando revisão e assinatura</span>
+<span class="text-[#f26522] font-semibold flex items-center gap-1">Priorizar →</span>
+</div>
+</div>
+<!-- Callout 3 -->
+<div class="p-5 bg-[#0c1626] border border-slate-800 rounded-2xl relative overflow-hidden group hover:border-[#00d2b4]/40 transition-all">
+<div class="flex items-start justify-between">
+<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#f26522] text-white font-mono font-bold text-xs">3</span>
+<span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-slate-800 text-slate-300">HISTÓRICO ATIVO</span>
+</div>
+<h4 class="text-base font-bold text-white tracking-tight mt-4">Gestão completa por TAG</h4>
+<p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Prontuário individual de cada caldeira, vaso ou tubulação com histórico cronológico de intervenções e espessuras.
+          </p>
+<div class="mt-4 p-2.5 bg-slate-900/80 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 flex items-center justify-between">
+<span>Busca rápida por número de série ou TAG</span>
+<span class="text-[#f26522] font-semibold flex items-center gap-1">Filtrar →</span>
+</div>
+</div>
+<!-- Callout 4 -->
+<div class="p-5 bg-[#0c1626] border border-slate-800 rounded-2xl relative overflow-hidden group hover:border-[#00d2b4]/40 transition-all">
+<div class="flex items-start justify-between">
+<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#f26522] text-white font-mono font-bold text-xs">4</span>
+<span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#00d2b4]/15 text-[#00d2b4]">RELATÓRIOS CONSOLIDADOS</span>
+</div>
+<h4 class="text-base font-bold text-white tracking-tight mt-4">Módulo de empresas e dados</h4>
+<p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Visão consolidada de todas as indústrias atendidas com exportação de relatórios gerenciais para auditorias.
+          </p>
+<div class="mt-4 p-2.5 bg-slate-900/80 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 flex items-center justify-between">
+<span>Geração de dossiê técnico em lote</span>
+<span class="text-[#f26522] font-semibold flex items-center gap-1">Exportar →</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 7: PARA QUEM É (BLUEPRINT SPEC CARDS) ==================== -->
+<section class="py-24 bg-[#070d18] text-slate-300 bg-tech-blueprint border-b border-slate-800">
+<div class="max-w-7xl mx-auto px-6 sm:px-8">
+<div class="max-w-3xl mx-auto text-center mb-16">
+<span class="font-mono text-xs text-[#00d2b4] font-semibold uppercase tracking-widest bg-[#00d2b4]/10 border border-[#00d2b4]/30 px-3.5 py-1 rounded-full inline-block">
+        Público-Alvo Especializado
+      </span>
+<h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">
+        Feito para quem vive a rotina de inspeções técnicas.
+      </h2>
+<p class="text-base sm:text-lg text-slate-400 mt-3.5 leading-relaxed">
+        O NR Nexus foi desenvolvido para profissionais que precisam transformar uma rotina técnica complexa em uma operação organizada e controlável.
+      </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+<!-- Persona 1: Engenheiros -->
+<div class="p-8 cyber-slate-card rounded-2xl flex flex-col justify-between hover:-translate-y-1 hover:border-[#f26522]/50 transition-all corner-brackets">
+<div>
+<div class="w-12 h-12 rounded-xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522] mb-6 shadow-sm">
+<span class="material-symbols-outlined text-[28px]">engineering</span>
+</div>
+<h3 class="text-xl font-bold text-white tracking-tight">Engenheiros</h3>
+<p class="text-slate-400 mt-2.5 leading-relaxed text-sm sm:text-base">
+            Para organizar sua carteira de clientes, equipamentos e inspeções com autonomia, agilidade e máxima precisão normativa.
+          </p>
+</div>
+<div class="mt-8 pt-5 border-t border-slate-800 flex flex-col gap-2.5">
+<div class="flex items-center gap-2 text-slate-200 font-medium text-xs">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check_circle</span>
+<span>Emissão padronizada de pareceres</span>
+</div>
+<div class="flex items-center gap-2 text-slate-200 font-medium text-xs">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check_circle</span>
+<span>Histórico seguro por contratante</span>
+</div>
+</div>
+</div>
+<!-- Persona 2: Profissionais de Inspeção -->
+<div class="p-8 cyber-slate-card rounded-2xl flex flex-col justify-between hover:-translate-y-1 hover:border-[#00d2b4]/50 transition-all corner-brackets">
+<div>
+<div class="w-12 h-12 rounded-xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#00d2b4] mb-6 shadow-sm">
+<span class="material-symbols-outlined text-[28px]">plumbing</span>
+</div>
+<h3 class="text-xl font-bold text-white tracking-tight">Profissionais de Inspeção</h3>
+<p class="text-slate-400 mt-2.5 leading-relaxed text-sm sm:text-base">
+            Para registrar e acompanhar suas atividades técnicas no campo sem retrabalho, inconsistências ou planilhas perdidas.
+          </p>
+</div>
+<div class="mt-8 pt-5 border-t border-slate-800 flex flex-col gap-2.5">
+<div class="flex items-center gap-2 text-slate-200 font-medium text-xs">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check_circle</span>
+<span>Checklists rápidos de campo</span>
+</div>
+<div class="flex items-center gap-2 text-slate-200 font-medium text-xs">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check_circle</span>
+<span>Registro ágil de espessuras e fotos</span>
+</div>
+</div>
+</div>
+<!-- Persona 3: Empresas de Engenharia -->
+<div class="p-8 cyber-slate-card rounded-2xl flex flex-col justify-between hover:-translate-y-1 hover:border-[#f26522]/50 transition-all corner-brackets">
+<div>
+<div class="w-12 h-12 rounded-xl bg-[#0c1626] border border-slate-700 flex items-center justify-center text-[#f26522] mb-6 shadow-sm">
+<span class="material-symbols-outlined text-[28px]">domain</span>
+</div>
+<h3 class="text-xl font-bold text-white tracking-tight">Empresas de Engenharia</h3>
+<p class="text-slate-400 mt-2.5 leading-relaxed text-sm sm:text-base">
+            Para centralizar e acompanhar suas operações de múltiplos inspetores com visão gerencial, escala e governança técnica.
+          </p>
+</div>
+<div class="mt-8 pt-5 border-t border-slate-800 flex flex-col gap-2.5">
+<div class="flex items-center gap-2 text-slate-200 font-medium text-xs">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check_circle</span>
+<span>Visão multi-inspetor e multi-cliente</span>
+</div>
+<div class="flex items-center gap-2 text-slate-200 font-medium text-xs">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check_circle</span>
+<span>Relatórios gerenciais unificados</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 8: CONFIANÇA & NR-13 (CYBER AUDIT MATRIX) ==================== -->
+<section class="py-24 bg-[#091120] border-b border-slate-800">
+<div class="max-w-7xl mx-auto px-6 sm:px-8">
+<div class="p-8 md:p-12 cyber-slate-card rounded-3xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center corner-brackets">
+<div class="lg:col-span-8 flex flex-col gap-4">
+<div class="inline-flex items-center gap-2 text-[#00d2b4] bg-[#00d2b4]/10 px-3.5 py-1 rounded-full border border-[#00d2b4]/30 font-mono text-xs font-semibold tracking-wider w-fit">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+<span>Alinhamento Normativo Estrito</span>
+</div>
+<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">
+          Sua operação organizada dentro de uma rotina alinhada à NR-13.
+        </h2>
+<p class="text-base sm:text-lg text-slate-300 leading-relaxed">
+          O NR Nexus foi desenvolvido pensando na rotina de inspeções e documentação técnica relacionada à NR-13. Uma plataforma que auxilia na organização precisa da rotina de inspeção, histórico documental e estruturação técnica da emissão de laudos.
+        </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+<div class="flex items-center gap-2.5 font-medium text-xs sm:text-sm text-slate-200">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check</span>
+<span>Rastreabilidade de Prontuários e Livros de Registro</span>
+</div>
+<div class="flex items-center gap-2.5 font-medium text-xs sm:text-sm text-slate-200">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check</span>
+<span>Categorização de Fluidos e Potencial de Risco</span>
+</div>
+<div class="flex items-center gap-2.5 font-medium text-xs sm:text-sm text-slate-200">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check</span>
+<span>Controle de Periodicidade de Inspeções</span>
+</div>
+<div class="flex items-center gap-2.5 font-medium text-xs sm:text-sm text-slate-200">
+<span class="material-symbols-outlined text-[#00d2b4] text-[18px]">check</span>
+<span>Validação das Recomendações do Profissional Habilitado (PH)</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 flex justify-center">
+<div class="p-8 bg-[#0c1626] border border-slate-700/80 rounded-2xl shadow-xl text-center flex flex-col items-center gap-3.5 max-w-sm w-full">
+<div class="w-16 h-16 rounded-2xl bg-[#00d2b4]/10 border border-[#00d2b4]/30 flex items-center justify-center text-[#00d2b4]">
+<span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</div>
+<div class="text-lg font-bold text-white tracking-tight">Rigor Regulatório</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+            Projetado com base nas exigências do Ministério do Trabalho e Emprego para caldeiras, vasos, tubulações e tanques.
+          </p>
+<div class="w-full pt-2">
+<span class="inline-block w-full py-2.5 bg-[#08101d] border border-slate-800 rounded-xl font-mono text-xs text-[#00d2b4] font-semibold">
+              Padrão NR-13 Atualizado
+            </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 9: CTA PRINCIPAL (DARK CYBER TECHNICAL) ==================== -->
+<section class="py-24 bg-[#070d18] bg-tech-blueprint text-white relative overflow-hidden border-b border-slate-800" id="comecar">
+<div class="absolute top-0 right-0 bottom-0 w-full lg:w-[720px] pointer-events-none z-0 overflow-hidden opacity-40 mix-blend-luminosity lg:mix-blend-normal">
+<img alt="Engenheiro Mecânico Industrial NR-13 realizando inspeção técnica" class="w-full h-full object-cover object-center filter contrast-125 saturate-[1.1]" src="assets/AEtjO1XcQMpagUbZEuw0PLPMCIBUsoTY7fCJpFnxOl8i1ISwzMl0Z9fp3WOzHpVxjzIRSHno3v0hZXZcZ-JAlcMRO6LyQjBb_YAA-ef28265b31284f006eda36b6361a8491" style="-webkit-mask-image: radial-gradient(ellipse at 60% 40%, black 25%, rgba(0,0,0,0.5) 60%, transparent 88%), linear-gradient(to left, black 35%, rgba(0,0,0,0.2) 75%, transparent 100%), linear-gradient(to bottom, black 60%, transparent 98%); mask-image: radial-gradient(ellipse at 60% 40%, black 25%, rgba(0,0,0,0.5) 60%, transparent 88%), linear-gradient(to left, black 35%, rgba(0,0,0,0.2) 75%, transparent 100%), linear-gradient(to bottom, black 60%, transparent 98%);">
+<div class="absolute inset-0 bg-gradient-to-r from-[#070d18] via-[#070d18]/80 to-transparent pointer-events-none"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#070d18] via-transparent to-[#070d18]/70 pointer-events-none"></div>
+</div>
+<div class="absolute -left-20 -bottom-20 w-96 h-96 bg-[#00d2b4]/10 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+<div class="max-w-3xl mx-auto text-center flex flex-col items-center gap-5">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0c1626] border border-slate-700 text-white backdrop-blur-md">
+<img alt="Logo NR Nexus" class="h-3.5 w-auto object-contain" src="assets/AB6AXuBVizPHTYV3ABrLQ1fguzcIRfNbwRLX8N99HiwsI74p614THuJYB0Z48BP2UH5ZlAPjSaPKT_xhVNNp9MaJcITfr09FhbHW-f3e070c9e1fef994b0fa660ee3ec5e1a">
+<span class="font-mono text-xs uppercase tracking-wider font-semibold text-slate-300">NR Nexus SaaS</span>
+</div>
+<h2 class="text-4xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+        Organize suas inspeções. <br class="hidden sm:inline">Simplifique seus laudos.
+      </h2>
+<p class="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
+        Comece a transformar sua rotina técnica em uma operação mais organizada, ágil e protegida contra falhas documentais.
+      </p>
+<div class="flex flex-col sm:flex-row items-center gap-4 mt-4 w-full justify-center">
+<a class="relative group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-10 py-4 rounded-xl bg-[#f26522] text-white text-base font-bold shadow-[0_15px_40px_rgba(242,101,34,0.45)] hover:shadow-[0_18px_50px_rgba(242,101,34,0.65)] hover:bg-[#fa7435] active:scale-[0.98] transition-all duration-200" href="#comecar">
+<span>Começar agora</span>
+<span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="flex items-center gap-2 mt-2 text-slate-400 text-xs">
+<span class="material-symbols-outlined text-[#f26522] text-[18px]">rocket_launch</span>
+<span class="text-slate-300">Leve sua operação para o próximo nível com o NR Nexus.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== SEÇÃO 10: FAQ (CYBER SLATE TECHNICAL ACCORDION) ==================== -->
+<section class="py-24 bg-[#091120] text-slate-300 bg-tech-microgrid" id="faq">
+<div class="max-w-7xl mx-auto px-6 sm:px-8">
+<div class="max-w-3xl mx-auto text-center mb-16">
+<span class="font-mono text-xs text-[#f26522] font-semibold uppercase tracking-widest bg-[#f26522]/10 border border-[#f26522]/25 px-3.5 py-1 rounded-full inline-block">
+        Dúvidas Frequentes
+      </span>
+<h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">
+        Perguntas Frequentes
+      </h2>
+<p class="text-base sm:text-lg text-slate-400 mt-3.5 leading-relaxed">
+        Tire suas dúvidas técnicas sobre o funcionamento do NR Nexus.
+      </p>
+</div>
+<div class="max-w-3xl mx-auto flex flex-col gap-3" id="faq-accordion">
+<!-- Accordion Item 1 -->
+<div class="cyber-slate-card rounded-2xl overflow-hidden transition-all">
+<button class="w-full text-left p-6 flex items-center justify-between gap-4 text-white text-base md:text-lg font-bold focus:outline-none" onclick="toggleFaq(1)" type="button">
+<span>O que é o NR Nexus?</span>
+<span class="material-symbols-outlined text-[#00d2b4] transition-transform duration-200" id="faq-icon-1">expand_more</span>
+</button>
+<div class="px-6 pb-6 hidden text-slate-400 leading-relaxed text-sm md:text-base border-t border-slate-800 pt-4" id="faq-content-1">
+          O NR Nexus é um software SaaS desenvolvido pela Flux Soluções Digitais para engenheiros e empresas que realizam inspeções técnicas, centralizando o cadastro de empresas, equipamentos, inspeções e a organização de laudos em um único ambiente.
+        </div>
+</div>
+<!-- Accordion Item 2 -->
+<div class="cyber-slate-card rounded-2xl overflow-hidden transition-all">
+<button class="w-full text-left p-6 flex items-center justify-between gap-4 text-white text-base md:text-lg font-bold focus:outline-none" onclick="toggleFaq(2)" type="button">
+<span>Para quem o NR Nexus foi desenvolvido?</span>
+<span class="material-symbols-outlined text-[#00d2b4] transition-transform duration-200" id="faq-icon-2">expand_more</span>
+</button>
+<div class="px-6 pb-6 hidden text-slate-400 leading-relaxed text-sm md:text-base border-t border-slate-800 pt-4" id="faq-content-2">
+          Para engenheiros autônomos, peritos, profissionais de inspeção e empresas de engenharia mecânica/industrial que necessitam gerenciar inspeções técnicas e fluxo documental com rigor.
+        </div>
+</div>
+<!-- Accordion Item 3 -->
+<div class="cyber-slate-card rounded-2xl overflow-hidden transition-all">
+<button class="w-full text-left p-6 flex items-center justify-between gap-4 text-white text-base md:text-lg font-bold focus:outline-none" onclick="toggleFaq(3)" type="button">
+<span>O sistema permite cadastrar empresas e equipamentos?</span>
+<span class="material-symbols-outlined text-[#00d2b4] transition-transform duration-200" id="faq-icon-3">expand_more</span>
+</button>
+<div class="px-6 pb-6 hidden text-slate-400 leading-relaxed text-sm md:text-base border-t border-slate-800 pt-4" id="faq-content-3">
+          Sim. Você cadastra empresas clientes e vincula todos os seus equipamentos (vasos de pressão, caldeiras, tubulações, tanques) com TAGs, especificações e histórico completo de inspeções.
+        </div>
+</div>
+<!-- Accordion Item 4 -->
+<div class="cyber-slate-card rounded-2xl overflow-hidden transition-all">
+<button class="w-full text-left p-6 flex items-center justify-between gap-4 text-white text-base md:text-lg font-bold focus:outline-none" onclick="toggleFaq(4)" type="button">
+<span>Consigo acompanhar minhas inspeções e laudos?</span>
+<span class="material-symbols-outlined text-[#00d2b4] transition-transform duration-200" id="faq-icon-4">expand_more</span>
+</button>
+<div class="px-6 pb-6 hidden text-slate-400 leading-relaxed text-sm md:text-base border-t border-slate-800 pt-4" id="faq-content-4">
+          Com certeza. O painel indica claramente as inspeções que estão aguardando início, em andamento, concluídas e quais laudos ainda estão pendentes de emissão.
+        </div>
+</div>
+<!-- Accordion Item 5 -->
+<div class="cyber-slate-card rounded-2xl overflow-hidden transition-all">
+<button class="w-full text-left p-6 flex items-center justify-between gap-4 text-white text-base md:text-lg font-bold focus:outline-none" onclick="toggleFaq(5)" type="button">
+<span>O NR Nexus atende à rotina de inspeções relacionada à NR-13?</span>
+<span class="material-symbols-outlined text-[#00d2b4] transition-transform duration-200" id="faq-icon-5">expand_more</span>
+</button>
+<div class="px-6 pb-6 hidden text-slate-400 leading-relaxed text-sm md:text-base border-t border-slate-800 pt-4" id="faq-content-5">
+          Sim. O sistema foi estruturado especificamente para espelhar e apoiar as rotinas e exigências documentais previstas na NR-13, facilitando a organização das informações técnicas essenciais.
+        </div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- ==================== FOOTER ENTERPRISE ==================== -->
+<footer class="w-full bg-[#050911] text-slate-400 border-t border-slate-800">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 py-16">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pb-12">
+<!-- Brand identity col -->
+<div class="md:col-span-5 flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="p-1 rounded bg-black/80 border border-slate-800">
+<img alt="Logo NR Nexus Oficial" class="h-7 w-auto object-contain" src="assets/AB6AXuADhqNOgQD5V-W1nWJP60No9MK6YCUdHMqXyhaJ8kifKpvyBiCfYvNODRPmN_K2KKMXR-D5tzJuhnGJJS1wM4hbjzCOQs2o-521dff63ac99a3a6b8b8528bd6afc301">
+</div>
+<span class="text-lg font-bold tracking-tight text-white">NR NEXUS</span>
+</div>
+<p class="text-slate-400 text-xs sm:text-sm max-w-sm mt-1 leading-relaxed">
+          NR Nexus — Gestão inteligente de inspeções e laudos técnicos.
+        </p>
+<div class="inline-flex items-center gap-2 mt-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00d2b4]"></span>
+<span class="font-mono text-xs text-slate-300 uppercase tracking-wider">Um produto Flux Soluções Digitais</span>
+</div>
+</div>
+<!-- Links col -->
+<div class="md:col-span-4 flex flex-col gap-4">
+<span class="text-sm font-semibold text-white tracking-wide font-mono uppercase text-xs">Navegação e Conformidade</span>
+<div class="flex flex-wrap gap-x-6 gap-y-2 text-xs sm:text-sm">
+<a class="text-slate-400 hover:text-white transition-colors" data-path="solucao" href="#solucao">Solução</a>
+<a class="text-slate-400 hover:text-white transition-colors" data-path="recursos" href="#recursos">Recursos</a>
+<a class="text-slate-400 hover:text-white transition-colors" data-path="faq" href="#faq">FAQ</a>
+<a class="text-slate-400 hover:text-white transition-colors" data-path="termos-de-uso" href="#termos">Termos de uso</a>
+<a class="text-slate-400 hover:text-white transition-colors" data-path="politica-de-privacidade" href="#privacidade">Política de privacidade</a>
+</div>
+</div>
+<!-- CTA footer col -->
+<div class="md:col-span-3 flex flex-col items-start md:items-end gap-3">
+<span class="text-sm font-semibold text-white md:text-right font-mono uppercase text-xs">Pronto para auditar?</span>
+<a class="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-[#f26522] hover:bg-[#fa7435] text-white text-xs font-semibold shadow-[0_0_20px_rgba(242,101,34,0.3)] transition-all duration-200" data-path="comecar" href="#comecar">
+          Começar agora
+        </a>
+</div>
+</div>
+<!-- Legal footer bottom -->
+<div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800/80">
+<p class="text-xs text-slate-500 font-mono">
+        © 2025 NR Nexus • Flux Soluções Digitais. Todos os direitos reservados.
+      </p>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-3 py-1 rounded-full font-mono text-[11px] bg-[#00d2b4]/10 border border-[#00d2b4]/30 text-[#00d2b4] font-semibold uppercase tracking-wider">
+          Conforme NR-13
+        </span>
+</div>
+</div>
+</div>
+</footer>
+<!-- FAQ Toggle Script -->
+<script>
+  function toggleFaq(index) {
+    const content = document.getElementById('faq-content-' + index);
+    const icon = document.getElementById('faq-icon-' + index);
+    if (!content) return;
+    const isHidden = content.classList.contains('hidden');
+    
+    if (isHidden) {
+      content.classList.remove('hidden');
+      if (icon) icon.style.transform = 'rotate(180deg)';
+    } else {
+      content.classList.add('hidden');
+      if (icon) icon.style.transform = 'rotate(0deg)';
+    }
+  }
+</script>
+</body></html>
