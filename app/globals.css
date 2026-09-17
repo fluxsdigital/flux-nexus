@@ -5,3 +5,15 @@
 footer{background:#050911;padding:58px 0 24px}.footerGrid{display:grid;grid-template-columns:2fr 1.5fr 1fr;gap:36px;align-items:start}.footerGrid>div{display:flex;flex-direction:column;gap:12px;align-items:flex-start}.footerGrid p{font-size:13px;color:#94a3b8;margin:0}.footerGrid>div>b{color:#fff;font:700 11px monospace}.copyright{border-top:1px solid #1e293b;margin-top:38px;padding-top:22px;display:flex;justify-content:space-between;font:11px monospace;color:#64748b}.copyright span{color:var(--cyan);border:1px solid #00d2b444;background:#00d2b411;padding:3px 9px;border-radius:99px}
 @media(max-width:900px){.navWrap nav,.status,.iconButton{display:none}.heroGrid{grid-template-columns:1fr}.dashWrap{margin-top:26px}.grid.four{grid-template-columns:repeat(2,1fr)}.grid.three{grid-template-columns:1fr}.solution{grid-column:span 6}.compliance{grid-template-columns:1fr}.footerGrid{grid-template-columns:1fr 1fr}.footerGrid>div:last-child{grid-column:span 2}.hero{padding-top:125px}.cta h2{font-size:40px}}
 @media(max-width:620px){.container{width:min(100% - 32px,1216px)}.headerActions .button{display:none}.hero{padding:120px 0 72px}.hero h1{font-size:38px}.heroCopy>p{font-size:16px}.eyebrow{font-size:9px}.actions{flex-direction:column}.actions .button{width:100%}.heroMetrics{padding:12px}.heroMetrics div{padding:0 8px}.heroMetrics b{font-size:18px}.heroMetrics span{font-size:8px}.floatBadge{display:none}.section{padding:72px 0}.sectionIntro{margin-bottom:38px}.sectionIntro p{font-size:16px}.grid.two,.grid.four{grid-template-columns:1fr}.solutionGrid{display:block}.solution{margin-bottom:16px}.benefit{flex-direction:column}.stats{grid-template-columns:repeat(2,1fr)}.compliance{padding:25px}.compliance h2{font-size:29px}.checkGrid{grid-template-columns:1fr}.cta h2{font-size:34px}.footerGrid{grid-template-columns:1fr}.footerGrid>div:last-child{grid-column:auto}.copyright{flex-direction:column}.dashboard{font-size:12px}}
+
+/* Subtle depth and motion from the original Stitch hero. */
+.dashWrap{perspective:1100px}
+.dashboard{animation:dashboardDrift 8s ease-in-out infinite;will-change:transform}
+.floatBadge{will-change:transform}
+.floatBadge.top{animation:badgeFloatTop 5s ease-in-out infinite}
+.floatBadge.bottom{animation:badgeFloatBottom 6s ease-in-out infinite}
+@keyframes dashboardDrift{0%,100%{transform:translate3d(0,0,0) rotateX(0) rotateY(0)}50%{transform:translate3d(0,-7px,0) rotateX(.6deg) rotateY(-.8deg)}}
+@keyframes badgeFloatTop{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(5px,-9px,0)}}
+@keyframes badgeFloatBottom{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-5px,8px,0)}}
+@media(hover:hover){.dashWrap:hover .dashboard{animation-play-state:paused;transform:translate3d(0,-4px,0) rotateX(1deg) rotateY(-1deg);transition:transform .45s ease}.dashWrap:hover .floatBadge{animation-play-state:paused}}
+@media(prefers-reduced-motion:reduce){.scan,.dashboard,.floatBadge{animation:none!important}.dashboard,.floatBadge{transform:none!important}}
