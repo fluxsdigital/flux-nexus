@@ -20,6 +20,11 @@ npm install
 npm run dev
 ```
 
+O checkout local fica em `dev/flux-nexus/front`, ao lado da API independente em
+`dev/flux-nexus/api`. O repositório e a raiz de deploy deste frontend continuam
+inalterados. Para uma futura integração local, copie `.env.example` para `.env.local`;
+o frontend ainda usa os mocks existentes até a integração ser autorizada e validada.
+
 ## Validação
 
 ```bash
