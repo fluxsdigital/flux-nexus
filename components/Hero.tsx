@@ -13,7 +13,7 @@ export function Hero() {
     <span className="eyebrow cyan"><i/> Gestão de Inspeções e Laudos NR-13 <b>Conforme MTE</b></span>
     <h1>Suas inspeções e laudos técnicos, <span>em um só lugar.</span></h1>
     <p>Gerencie empresas, equipamentos, inspeções e emissão de laudos técnicos com muito mais organização, governança e controle operacional.</p>
-    <div className="actions"><a className="button" href="#comecar">Começar agora <Icon name="arrow"/></a><a className="button secondary" href="#como-funciona"><Icon name="play"/> Ver demonstração interativa</a></div>
+    <div className="actions"><a className="button" href="/app">Acessar o sistema <Icon name="arrow"/></a><a className="button secondary" href="#como-funciona"><Icon name="play"/> Ver demonstração interativa</a></div>
     <div className="assurance"><Icon name="check"/> Feito para a rotina de engenheiros mecânicos e inspetores NR-13.</div>
     <div className="heroMetrics"><div><b>+1.200</b><span>Laudos organizados</span></div><div><b className="cyanText">100%</b><span>Conformidade NR-13</span></div><div><b>Zero</b><span>Planilhas soltas</span></div></div>
   </div><div className="dashWrap"><div className="floatBadge top"><i/>14 Concluídas este mês <b>+18%</b></div><Dashboard/><div className="floatBadge bottom"><Icon name="factory"/><span><b>Inspeção In Loco</b><small>TAG: VP-12-C • Caldeiras e Vasos</small></span></div></div></div></section>;
