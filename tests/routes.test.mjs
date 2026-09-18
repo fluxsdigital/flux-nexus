@@ -29,11 +29,15 @@ after(() => {
 
 const routes = [
   ["/", "Suas inspeções e laudos técnicos"],
-  ["/app", "Visão Geral"],
-  ["/app/empresas", "Empresas"],
-  ["/app/equipamentos", "Equipamentos"],
-  ["/app/inspecao", "Nova inspeção"],
-  ["/app/laudos", "Laudos"],
+  ["/login", "Acesse seu workspace"],
+  ["/criar-conta", "Crie seu workspace"],
+  ["/convite", "Carregando convite"],
+  ["/app", "Validando sessão"],
+  ["/app/empresas", "Validando sessão"],
+  ["/app/equipamentos", "Validando sessão"],
+  ["/app/inspecao", "Validando sessão"],
+  ["/app/laudos", "Validando sessão"],
+  ["/app/equipe", "Validando sessão"],
 ];
 
 for (const [route, expectedText] of routes) {

@@ -1,0 +1,2 @@
+"use client"; import { useEffect } from "react"; import { useRouter } from "next/navigation"; import { useAuth } from "./AuthProvider";
+export function ProtectedApp({children}:{children:React.ReactNode}){const {user,loading}=useAuth();const router=useRouter();useEffect(()=>{if(!loading&&!user)router.replace("/login")},[loading,user,router]);if(loading||!user)return <div className="authScreen"><div className="authLoading">Validando sessão…</div></div>;return children}

@@ -1,0 +1,2 @@
+import Link from "next/link";
+export function AuthFrame({title,subtitle,children,footer}:{title:string;subtitle:string;children:React.ReactNode;footer?:React.ReactNode}){return <main className="authScreen blueprint"><section className="authCard"><Link href="/" className="authBrand"><span>N</span><b>NR NEXUS<small>GESTÃO NR-13</small></b></Link><div className="authHeading"><small>AMBIENTE SEGURO</small><h1>{title}</h1><p>{subtitle}</p></div>{children}{footer&&<div className="authFooter">{footer}</div>}</section></main>}
