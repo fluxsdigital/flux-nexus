@@ -4,7 +4,7 @@ import { Icon } from "../../../components/Icon";
 import { useAuth } from "../../../components/auth/AuthProvider";
 import { Inspection, useSystem } from "../../../components/system/SystemProvider";
 
-type Report={id:string;number:string;status:string;conclusion:string;inspection:{id:string;equipment:{tag:string;name:string;company:{name:string}};responsible:{name:string;crea:string|null};result:string|null}};
+type Report={id:string;number:string;status:string;conclusion:string;signatureData?:string|null;inspection:{id:string;equipment:{tag:string;name:string;company:{name:string}};responsible:{name:string;crea:string|null};result:string|null;signatureData?:string|null}};
 const resultLabel:Record<string,string>={APPROVED:"Aprovado",APPROVED_WITH_RECOMMENDATIONS:"Aprovado com recomendações",REJECTED:"Reprovado"};
 
 export default function Reports(){
