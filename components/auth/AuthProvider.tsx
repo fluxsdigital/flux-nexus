@@ -2,7 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 type User={id:string;name:string;email:string;role:string;crea?:string;tenant:{id:string;name:string;slug:string;plan:string;status:string}};
 type Auth={user:User|null;loading:boolean;request:<T>(path:string,init?:RequestInit)=>Promise<T>;save:(data:{accessToken:string;refreshToken:string;user:User})=>void;logout:()=>Promise<void>};
-const Context=createContext<Auth|null>(null); const API=process.env.NEXT_PUBLIC_API_URL||"http://localhost:3333";
+const Context=createContext<Auth|null>(null); const API=process.env.NEXT_PUBLIC_API_URL||(process.env.NODE_ENV==="production"?"https://api.nrnexus.com.br":"http://localhost:3333");
 export function AuthProvider({children}:{children:React.ReactNode}){const [user,setUser]=useState<User|null>(null);const [loading,setLoading]=useState(true);
  const save=useCallback((d:{accessToken:string;refreshToken:string;user:User})=>{localStorage.setItem("nexus-auth",JSON.stringify(d));setUser(d.user)},[]);
  const refresh=useCallback(async()=>{const raw=localStorage.getItem("nexus-auth");if(!raw)return null;const old=JSON.parse(raw);const res=await fetch(`${API}/v1/auth/refresh`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({refreshToken:old.refreshToken})});if(!res.ok){localStorage.removeItem("nexus-auth");setUser(null);return null}const data=await res.json();save(data);return data.accessToken},[save]);
