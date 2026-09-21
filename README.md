@@ -80,6 +80,14 @@ npm run dev
 
 `NEXT_PUBLIC_API_URL` define a URL da API. Nenhum segredo deve ser colocado em variáveis públicas do frontend.
 
+Na Vercel, configure a variável de ambiente de produção:
+
+```text
+NEXT_PUBLIC_API_URL=https://api.nrnexus.com.br
+```
+
+Após alterar essa variável, faça um novo deploy para que o valor seja incorporado ao bundle do Next.js.
+
 ### Validação
 
 ```bash
