@@ -5,7 +5,7 @@ import { User, useAuth } from "../../../components/auth/AuthProvider";
 import styles from "./settings.module.css";
 
 type Settings = User & { tenant: User["tenant"] };
-const readImage = (event: ChangeEvent<HTMLInputElement>, setValue: (value: string) => void) => { const file = event.target.files?.[0]; if (!file) return; if (file.size > 1_500_000) { window.alert("Escolha uma imagem de até 1,5 MB."); return; } const reader = new FileReader(); reader.onload = () => setValue(String(reader.result)); reader.readAsDataURL(file); };
+const readImage = (event: ChangeEvent<HTMLInputElement>, setValue: (value: string) => void) => { const file = event.target.files?.[0]; if (!file) return; if (file.size > 8_000_000) { window.alert("Escolha uma imagem de até 8 MB."); return; } const reader = new FileReader(); reader.onload = () => { const image = new Image(); image.onload = () => { const scale = Math.min(1, 512 / Math.max(image.naturalWidth, image.naturalHeight)); const canvas = document.createElement("canvas"); canvas.width = Math.max(1, Math.round(image.naturalWidth * scale)); canvas.height = Math.max(1, Math.round(image.naturalHeight * scale)); canvas.getContext("2d")?.drawImage(image, 0, 0, canvas.width, canvas.height); setValue(canvas.toDataURL("image/webp", 0.82)); }; image.src = String(reader.result); }; reader.readAsDataURL(file); };
 
 export default function SettingsPage() {
   const { user, request, updateUser } = useAuth();
