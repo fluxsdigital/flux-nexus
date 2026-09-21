@@ -1,4 +1,5 @@
 import "./system.css";
+import "./thumbnails.css";
 import { SystemProvider } from "../../components/system/SystemProvider";
 import { SystemShell } from "../../components/system/SystemShell";
 import { ProtectedApp } from "../../components/auth/ProtectedApp";
