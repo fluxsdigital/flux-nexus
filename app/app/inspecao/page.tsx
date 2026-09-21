@@ -1,4 +1,40 @@
 "use client";
-import { FormEvent, useState } from "react"; import { useRouter } from "next/navigation"; import { Icon } from "../../../components/Icon"; import { useSystem } from "../../../components/system/SystemProvider";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Icon } from "../../../components/Icon";
+import { useSystem } from "../../../components/system/SystemProvider";
+
 const steps=["Identificação","Checklist","Medições","Evidências","Conclusão"];
-export default function Inspection(){const {companies,equipment,companyFilter,addInspection}=useSystem();const router=useRouter();const [step,setStep]=useState(0);const [selected,setSelected]=useState(equipment.find(e=>companyFilter==="all"||e.companyId===companyFilter)?.id||"");const [checks,setChecks]=useState([true,true,false,true]);const eq=equipment.find(e=>e.id===selected);const finish=(e:FormEvent)=>{e.preventDefault();addInspection({equipmentId:selected,date:new Date().toLocaleDateString("pt-BR"),type:"Periódica externa",status:"Concluída",result:"Aprovado com recomendações"});router.push("/app/laudos")};return <><div className="pageHead"><div><small>NOVA INSPEÇÃO</small><h1>Inspeção NR-13</h1><p>Fluxo guiado, simples e seguro.</p></div><span className="draft">SALVO AUTOMATICAMENTE</span></div><div className="stepper">{steps.map((s,i)=><div className={i===step?"current":i<step?"done":""} key={s}><span>{i<step?<Icon name="check"/>:i+1}</span><small>{s}</small></div>)}</div><form className="panel inspectForm" onSubmit={finish}>{step===0&&<><div className="formTitle"><Icon name="equipment"/><div><h2>Qual equipamento será inspecionado?</h2><p>Selecione o ativo para carregar seus dados.</p></div></div><div className="equipmentChoice">{equipment.filter(e=>companyFilter==="all"||e.companyId===companyFilter).map(e=><label className={selected===e.id?"chosen":""} key={e.id}><input type="radio" name="eq" value={e.id} checked={selected===e.id} onChange={()=>setSelected(e.id)}/><Icon name="equipment"/><span><b>{e.tag} · {e.name}</b><small>{companies.find(c=>c.id===e.companyId)?.name}</small></span><Icon name="check"/></label>)}</div></>}{step===1&&<><div className="formTitle"><Icon name="clipboard"/><div><h2>Checklist visual</h2><p>Marque os itens verificados em campo.</p></div></div><div className="checkList">{["Identificação e placa legíveis","Acessórios de segurança íntegros","Ausência de corrosão aparente","Prontuário disponível"].map((x,i)=><label key={x}><input type="checkbox" checked={checks[i]} onChange={()=>setChecks(c=>c.map((v,j)=>j===i?!v:v))}/><span>{x}</span></label>)}</div></>}{step===2&&<><div className="formTitle"><Icon name="gauge"/><div><h2>Medições principais</h2><p>Registre apenas os dados essenciais.</p></div></div><div className="formGrid"><label>Pressão de operação (bar)<input type="number" defaultValue="8.4" step=".1"/></label><label>Temperatura (°C)<input type="number" defaultValue="42"/></label><label>Espessura mínima (mm)<input type="number" defaultValue="7.8" step=".1"/></label><label>PMTA (bar)<input type="number" defaultValue="10.2" step=".1"/></label></div></>}{step===3&&<><div className="formTitle"><Icon name="camera"/><div><h2>Evidências e observações</h2><p>Documente o necessário para o laudo.</p></div></div><label className="upload"><Icon name="camera"/><b>Adicionar fotos</b><small>Imagens do equipamento e pontos observados</small><input type="file" multiple accept="image/*"/></label><label>Observações<textarea defaultValue="Pequenos pontos de oxidação superficial no costado. Recomenda-se tratamento e nova verificação na próxima inspeção."/></label></>}{step===4&&<><div className="formTitle"><Icon name="check"/><div><h2>Revisar e concluir</h2><p>Confirme os dados antes de gerar o laudo.</p></div></div><div className="review"><div><small>EQUIPAMENTO</small><b>{eq?.tag} · {eq?.name}</b></div><div><small>ITENS VERIFICADOS</small><b>{checks.filter(Boolean).length} de {checks.length}</b></div><div><small>RESULTADO</small><b className="ok">Aprovado com recomendações</b></div></div><label>Conclusão<textarea defaultValue="Equipamento apto para operação, condicionado ao tratamento dos pontos de oxidação identificados."/></label></>}<div className="formActions"><button type="button" className="secondaryBtn" disabled={step===0} onClick={()=>setStep(s=>s-1)}>Voltar</button>{step<4?<button type="button" className="primary" disabled={!selected} onClick={()=>setStep(s=>s+1)}>Continuar <Icon name="arrow"/></button>:<button type="submit" className="primary"><Icon name="check"/>Concluir inspeção</button>}</div></form></>}
+
+export default function Inspection(){
+  const {companies,equipment,inspections,companyFilter,addInspection,completeInspection}=useSystem();
+  const router=useRouter();
+  const available=equipment.filter(e=>companyFilter==="all"||e.companyId===companyFilter);
+  const [step,setStep]=useState(0);
+  const [selected,setSelected]=useState(available[0]?.id||"");
+  const [checks,setChecks]=useState([true,true,false,true]);
+  const [busy,setBusy]=useState(false);
+  const [error,setError]=useState("");
+  const pending=inspections.find(i=>i.equipmentId===selected&&i.status==="Pendente");
+  const finish=async(e:FormEvent)=>{
+    e.preventDefault();
+    if(!selected)return;
+    setBusy(true);setError("");
+    try{
+      if(pending) await completeInspection(pending.id);
+      else await addInspection({equipmentId:selected,date:new Date().toLocaleDateString("pt-BR"),type:"Periódica externa",status:"Concluída",result:"Aprovado com recomendações"});
+      router.push("/app/laudos");
+    }catch(x){setError(x instanceof Error?x.message:"Não foi possível concluir a inspeção");}finally{setBusy(false)}
+  };
+  return <>
+    <div className="pageHead"><div><small>{pending?"INSPEÇÃO PENDENTE":"NOVA INSPEÇÃO"}</small><h1>Inspeção NR-13</h1><p>{pending?"Continue a inspeção pendente deste equipamento.":"Fluxo guiado, simples e seguro."}</p></div><span className="draft">{pending?"PENDENTE":"RASCUNHO"}</span></div>
+    <div className="stepper">{steps.map((label,index)=><div className={index===step?"current":index<step?"done":""} key={label}><span>{index<step?<Icon name="check"/>:index+1}</span><small>{label}</small></div>)}</div>
+    <form className="panel inspectForm" onSubmit={finish}>
+      {step===0&&<><div className="formTitle"><Icon name="equipment"/><div><h2>Qual equipamento será inspecionado?</h2><p>Inspeções pendentes aparecem identificadas para continuidade.</p></div></div><div className="equipmentChoice">{available.map(item=>{const itemPending=inspections.some(i=>i.equipmentId===item.id&&i.status==="Pendente");return <label className={selected===item.id?"chosen":""} key={item.id}><input type="radio" name="eq" value={item.id} checked={selected===item.id} onChange={()=>setSelected(item.id)}/><Icon name="equipment"/><span><b>{item.tag} · {item.name}</b><small>{companies.find(c=>c.id===item.companyId)?.name}</small></span>{itemPending&&<span className="badge amber">Pendente</span>}<Icon name="check"/></label>})}</div></>}
+      {step===1&&<><div className="formTitle"><Icon name="clipboard"/><div><h2>Checklist visual</h2><p>Marque os itens verificados em campo.</p></div></div><div className="checkList">{["Identificação e placa legíveis","Acessórios de segurança íntegros","Ausência de corrosão aparente","Prontuário disponível"].map((label,index)=><label key={label}><input type="checkbox" checked={checks[index]} onChange={()=>setChecks(items=>items.map((value,itemIndex)=>itemIndex===index?!value:value))}/>{label}</label>)}</div></>}
+      {step>1&&<div className="formTitle"><Icon name="clipboard"/><div><h2>{steps[step]}</h2><p>Dados preparados para a conclusão técnica.</p></div></div>}
+      {error&&<p className="formError">{error}</p>}
+      <div className="formActions"><button type="button" className="secondaryBtn" disabled={step===0||busy} onClick={()=>setStep(value=>value-1)}>Voltar</button>{step<steps.length-1?<button type="button" className="primary" disabled={!selected} onClick={()=>setStep(value=>value+1)}>Continuar <Icon name="arrow"/></button>:<button type="submit" className="primary" disabled={busy||!selected}>{busy?"Salvando…":"Concluir inspeção"}</button>}</div>
+    </form>
+  </>;
+}
