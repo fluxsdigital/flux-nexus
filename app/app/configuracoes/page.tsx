@@ -10,7 +10,7 @@ const readImage = (event: ChangeEvent<HTMLInputElement>, setValue: (value: strin
 export default function SettingsPage() {
   const { user, request, updateUser } = useAuth();
   const [settings, setSettings] = useState<Settings | null>(null); const [message, setMessage] = useState(""); const [error, setError] = useState(""); const [busy, setBusy] = useState(false);
-  useEffect(() => { if (user) void request<Settings>("/settings").then(setSettings).catch(cause => setError(cause instanceof Error ? cause.message : "Não foi possível carregar as configurações")); }, [user, request]);
+  useEffect(() => { if (user) void request<Settings>("/settings").then(setSettings).catch(cause => setError(cause instanceof Error ? cause.message : "Não foi possível carregar as configurações")); }, [user?.id, request]);
   if (!settings) return <div className="pageHead"><div><small>CONFIGURAÇÕES</small><h1>Carregando…</h1></div></div>;
   const current = settings;
   const canEditWorkspace = ["OWNER", "ADMIN"].includes(settings.role);
