@@ -1,1 +1,66 @@
-@page{size:A4;margin:16mm} @media print{html,body{background:#fff!important;color:#1e293b!important}body>*{display:none!important}.sys,.sysMain,.sysContent,.reportWorkspace,.reportPreview{display:block!important;margin:0!important;padding:0!important;background:#fff!important;border:0!important;box-shadow:none!important}.sysSide,.sysTop,.pageHead,.reportQueues,.reportActions,.mobileBack,.formError{display:none!important}.sysMain{margin-left:0!important}.reportWorkspace{width:100%!important;min-width:0!important}.reportPreview{width:100%!important;max-width:none!important}.reportPreview>.document{display:block!important;width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important;color:#1e293b!important;box-shadow:none!important}.documentTitle{break-inside:avoid}.documentFacts,.technicalFacts,.reportSignature{break-inside:avoid}.document h2,.document h3{color:#111827!important}.document p,.document strong,.document b{color:#1e293b!important}.document .docStatus{color:#475569!important;background:#f1f5f9!important}.document .issuedStatus{color:#047857!important;background:#ecfdf5!important} }
+.reportMainTitle{margin:32px 0 22px;text-align:center;color:#111827;font-size:18px;line-height:1.25;text-transform:uppercase;letter-spacing:.04em}
+.technicalReport{font-family:Arial,"Helvetica Neue",sans-serif;font-size:11px;line-height:1.45}
+.technicalReport .reportSection{margin-top:24px}
+.technicalReport .reportSection>h2{margin:0 0 10px;padding:0 0 6px;border-bottom:1px solid #cbd5e1;color:#1e293b;font-size:13px;line-height:1.3;text-align:left;letter-spacing:.01em}
+.technicalReport .reportSection>div{display:flex;flex-wrap:wrap;align-items:stretch}
+.technicalReport .reportFact{box-sizing:border-box;width:50%;margin:0;padding:8px 9px;border:1px solid #e2e8f0;display:flex;flex-direction:column;gap:3px;overflow-wrap:anywhere}
+.technicalReport .reportFact small{color:#64748b;font-size:8px;line-height:1.25;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.technicalReport .reportFact b{color:#1e293b;font-size:10.5px;line-height:1.38;font-weight:600}
+.reportTableWrap{width:100%;overflow-x:auto}
+.technicalReport table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:9px;line-height:1.35}
+.technicalReport thead{display:table-header-group}
+.technicalReport th{background:#f1f5f9;color:#334155;font-size:8px;text-transform:uppercase;letter-spacing:.03em}
+.technicalReport th,.technicalReport td{border:1px solid #cbd5e1;padding:6px;text-align:left;vertical-align:top;overflow-wrap:anywhere;word-break:normal;hyphens:auto}
+.technicalReport tr{break-inside:avoid;page-break-inside:avoid}
+.reportNarrative,.conclusion,.reportGuidance,.reportWarning{width:100%;box-sizing:border-box;margin:0 0 10px;padding:10px 12px;line-height:1.55;white-space:pre-line}
+.reportNarrative,.conclusion{border-left:3px solid #f26522;background:#f8fafc;color:#334155}
+.reportGuidance,.reportWarning{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
+.reportEvidence{width:100%;margin:0;padding:0;list-style:none}
+.reportEvidence li{display:flex;flex-direction:column;gap:3px;padding:9px 0;border-bottom:1px solid #e2e8f0;break-inside:avoid}
+.reportEvidence b{font-size:10.5px;color:#1e293b}.reportEvidence span{font-size:10px;color:#475569}.reportEvidence small{font-size:8.5px;color:#64748b;overflow-wrap:anywhere}
+.technicalReport .reportSignature{width:280px;margin:34px auto 0;padding:14px 18px 0;border-top:1px solid #64748b;text-align:center;break-inside:avoid;page-break-inside:avoid}
+.technicalReport .reportSignature small,.technicalReport .reportSignature b,.technicalReport .reportSignature span{display:block}
+.technicalReport .reportSignature img{width:220px;height:64px;margin:5px auto;object-fit:contain}
+.technicalReport .reportSignature small{font-size:8px;color:#64748b;letter-spacing:.05em}
+.technicalReport .reportSignature b{font-size:10.5px;color:#1e293b}
+.technicalReport .reportSignature span{font-size:9px;color:#475569}
+.reportFooter{margin-top:30px;padding:7px 0 0;border-top:1px solid #e2e8f0;background:transparent;color:#94a3b8;font-size:7.5px;text-align:center}
+
+@page{size:A4 portrait;margin:14mm 14mm 16mm}
+
+@media print{
+  html,body{width:210mm;background:#fff!important;color:#1e293b!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body>*{display:none!important}
+  .sys,.sysMain,.sysContent,.reportWorkspace,.reportPreview{display:block!important;width:auto!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important;background:#fff!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important}
+  .sysSide,.sysTop,.pageHead,.reportQueues,.reportActions,.mobileBack,.formError,.queueEmpty{display:none!important}
+  .sysMain{margin-left:0!important}
+  .reportPreview>.document{display:block!important;width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important;color:#1e293b!important;border:0!important;box-shadow:none!important;overflow:visible!important}
+  .technicalReport{font-size:9.5pt;line-height:1.4}
+  .docStatus{margin:0 0 5mm;padding:1.5mm 2.5mm;font-size:7pt}
+  .documentTitle{min-height:12mm;padding-bottom:4mm;break-inside:avoid;page-break-inside:avoid}
+  .documentTitle>span{width:10mm;height:10mm}.documentTitle b{font-size:10pt}.documentTitle small{font-size:6.5pt}.documentTitle strong{font-size:7.5pt;white-space:nowrap}
+  .reportMainTitle{margin:7mm 0 5mm;font-size:13pt;break-after:avoid;page-break-after:avoid}
+  .documentFacts{break-inside:avoid;page-break-inside:avoid}
+  .documentFacts>div{padding:2.5mm}.documentFacts small{font-size:6.5pt}.documentFacts strong{font-size:8.5pt}
+  .technicalReport .reportSection{margin-top:6mm;break-inside:avoid;page-break-inside:avoid}
+  .technicalReport .reportSection>h2{margin:0 0 2.5mm;padding-bottom:1.5mm;font-size:10pt;break-after:avoid;page-break-after:avoid;orphans:3;widows:3}
+  .technicalReport .reportSection>div{break-before:avoid;page-break-before:avoid}
+  .technicalReport .reportFact{padding:2mm 2.3mm;break-inside:avoid;page-break-inside:avoid}
+  .technicalReport .reportFact small{font-size:6.3pt}.technicalReport .reportFact b{font-size:8pt;line-height:1.32}
+  .reportTableWrap{overflow:visible}
+  .technicalReport table{font-size:7.2pt;line-height:1.25}
+  .technicalReport thead{display:table-header-group}
+  .technicalReport tfoot{display:table-footer-group}
+  .technicalReport th{font-size:6.3pt}
+  .technicalReport th,.technicalReport td{padding:1.7mm;overflow:visible}
+  .technicalReport tr,.reportEvidence li{break-inside:avoid;page-break-inside:avoid}
+  .reportNarrative,.conclusion,.reportGuidance,.reportWarning{padding:2.5mm 3mm;font-size:8pt;line-height:1.45;break-inside:avoid;page-break-inside:avoid;orphans:3;widows:3}
+  .conclusionSection{break-inside:avoid!important;page-break-inside:avoid!important}
+  .reportEvidence b{font-size:8pt}.reportEvidence span{font-size:7.5pt}.reportEvidence small{font-size:6.5pt}
+  .technicalReport .reportSignature{width:70mm;margin-top:9mm;padding-top:3mm}
+  .technicalReport .reportSignature img{width:55mm;height:16mm}
+  .reportFooter{margin-top:8mm;padding:2mm 0 0!important;background:transparent!important;font-size:6pt;break-inside:avoid}
+  .document h1,.document h2,.document h3,.document p,.document strong,.document b,.document span{color:inherit}
+  .document .docStatus{color:#475569!important;background:#f1f5f9!important}
+  .document .issuedStatus{color:#047857!important;background:#ecfdf5!important}
+}
