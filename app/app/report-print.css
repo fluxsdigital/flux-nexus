@@ -18,6 +18,7 @@
 .reportEvidence{width:100%;margin:0;padding:0;list-style:none}
 .reportEvidence li{display:flex;flex-direction:column;gap:3px;padding:9px 0;border-bottom:1px solid #e2e8f0;break-inside:avoid}
 .reportEvidence b{font-size:10.5px;color:#1e293b}.reportEvidence span{font-size:10px;color:#475569}.reportEvidence small{font-size:8.5px;color:#64748b;overflow-wrap:anywhere}
+.reportEvidenceGrid{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;width:100%}.reportEvidenceGrid figure{margin:0;border:1px solid #cbd5e1;break-inside:avoid;page-break-inside:avoid}.reportEvidenceGrid img{display:block;width:100%;height:180px;object-fit:contain;background:#f8fafc}.reportEvidenceGrid figcaption{display:flex;flex-direction:column;gap:2px;padding:7px}.reportEvidenceGrid b{font-size:10px}.reportEvidenceGrid span{font-size:9px;color:#475569}.reportEvidenceGrid small{font-size:7px;color:#64748b;overflow-wrap:anywhere}
 .technicalReport .reportSignature{width:280px;margin:34px auto 0;padding:14px 18px 0;border-top:1px solid #64748b;text-align:center;break-inside:avoid;page-break-inside:avoid}
 .technicalReport .reportSignature small,.technicalReport .reportSignature b,.technicalReport .reportSignature span{display:block}
 .technicalReport .reportSignature img{width:220px;height:64px;margin:5px auto;object-fit:contain}
@@ -54,6 +55,7 @@
   .technicalReport th{font-size:6.3pt}
   .technicalReport th,.technicalReport td{padding:1.7mm;overflow:visible}
   .technicalReport tr,.reportEvidence li{break-inside:avoid;page-break-inside:avoid}
+  .reportEvidenceGrid{grid-template-columns:1fr 1fr;gap:3mm}.reportEvidenceGrid figure{break-inside:avoid;page-break-inside:avoid}.reportEvidenceGrid img{height:48mm}.reportEvidenceGrid figcaption{padding:2mm}
   .reportNarrative,.conclusion,.reportGuidance,.reportWarning{padding:2.5mm 3mm;font-size:8pt;line-height:1.45;break-inside:avoid;page-break-inside:avoid;orphans:3;widows:3}
   .conclusionSection{break-inside:avoid!important;page-break-inside:avoid!important}
   .reportEvidence b{font-size:8pt}.reportEvidence span{font-size:7.5pt}.reportEvidence small{font-size:6.5pt}

@@ -3,12 +3,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
 
 export type Company = { id:string; name:string; cnpj:string; city:string; contact:string };
-export type Equipment = { id:string; tag:string; name:string; companyId:string; category:string; status:string; next:string };
+export type Equipment = { id:string; tag:string; name:string; companyId:string; category:string; status:string; next:string; location?:string; manufacturer?:string; serialNumber?:string; manufactureYear?:number; designPressureBar?:number; operatingPressureBar?:number; pmtaBar?:number; designTemperatureC?:number; minimumThicknessMm?:number; fluid?:string; riskCategory?:string; notes?:string };
 export type Inspection = { id:string; equipmentId:string; date:string; type:string; status:string; result?:string; signatureData?:string };
 export type ReportSummary = { id:string; number:string; status:string; inspection:{id:string; equipment:{tag:string;name:string;company:{name:string}}} };
 
 type ApiCompany = { id:string; name:string; cnpj:string; city:string; state:string; contact:string };
-type ApiEquipment = { id:string; tag:string; name:string; companyId:string; category:string; status:string; nextInspectionAt:string };
+type ApiEquipment = { id:string; tag:string; name:string; companyId:string; category:string; status:string; nextInspectionAt:string; location?:string; manufacturer?:string; serialNumber?:string; manufactureYear?:number; designPressureBar?:number; operatingPressureBar?:number; pmtaBar?:number; designTemperatureC?:number; minimumThicknessMm?:number; fluid?:string; riskCategory?:string; notes?:string };
 type ApiInspection = { id:string; equipmentId:string; scheduledAt:string|null; performedAt:string|null; type:string; status:string; result:string|null; signatureData:string|null };
 
 type Store = { companies:Company[]; equipment:Equipment[]; inspections:Inspection[]; reports:ReportSummary[]; companyFilter:string; setCompanyFilter:(v:string)=>void; addCompany:(v:Omit<Company,"id">)=>Promise<void>; updateCompany:(id:string,v:Omit<Company,"id">)=>Promise<void>; deleteCompany:(id:string)=>Promise<void>; addEquipment:(v:Omit<Equipment,"id">)=>Promise<void>; updateEquipment:(id:string,v:Omit<Equipment,"id">)=>Promise<void>; deleteEquipment:(id:string)=>Promise<void>; addInspection:(v:Omit<Inspection,"id">,signatureData?:string)=>Promise<string>; completeInspection:(id:string,signatureData?:string)=>Promise<void> };
