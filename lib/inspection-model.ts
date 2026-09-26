@@ -1,7 +1,7 @@
 export type Answer = "COMPLIANT" | "NON_COMPLIANT" | "NOT_APPLICABLE" | "NOT_VERIFIED";
-export type Reading = { point:string; component:string; value:string; unit:string; minimum?:string; observation?:string };
+export type Reading = { key:string; point:string; component:string; value:string; unit:string; minimum?:string; observation?:string };
 export type Device = { kind:"PSV"|"PRESSURE_GAUGE"; tag:string; manufacturer:string; serialNumber:string; range:string; setPressure:string; certificateNumber:string; calibrationDate:string; dueDate:string; result:string };
-export type Evidence = { id?:string; type?:"GENERAL"|"IDENTIFICATION_PLATE"|"COMPONENT"|"NON_CONFORMITY"|"DOCUMENT"|"OTHER"; title:string; url?:string; dataUrl?:string; description:string; fileName?:string; mimeType?:string; size?:number; sha256?:string; capturedAt?:string };
+export type Evidence = { id?:string; type?:"GENERAL"|"IDENTIFICATION_PLATE"|"COMPONENT"|"NON_CONFORMITY"|"DOCUMENT"|"OTHER"; title:string; url?:string; dataUrl?:string; description:string; fileName?:string; mimeType?:string; size?:number; sha256?:string; capturedAt?:string; measurementKey?:string|null };
 export type InspectionTechnicalData = {
   schemaVersion:1;
   scope:{ equipmentKind:"PRESSURE_VESSEL"|"HEAT_EXCHANGER"; examinations:string[]; inspectionType:string; startedAt:string; finishedAt:string; artNumber:string };
