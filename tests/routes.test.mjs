@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { readFile } from "node:fs/promises";
 import { after, before, test } from "node:test";
 
 const port = 4317;
@@ -47,3 +48,10 @@ for (const [route, expectedText] of routes) {
     assert.match(await response.text(), new RegExp(expectedText, "i"));
   });
 }
+
+test("conclusão atualiza as inspeções antes de abrir a fila de laudos", async () => {
+  const source = await readFile(new URL("../app/app/inspecao/page.tsx", import.meta.url), "utf8");
+  assert.match(source, /await refreshInspections\(\);router\.push\("\/app\/laudos"\)/);
+  assert.match(source, /role="alert"/);
+  assert.match(source, /InspectionValidationError/);
+});
