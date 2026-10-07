@@ -55,3 +55,5 @@ test("conclusão atualiza as inspeções antes de abrir a fila de laudos", async
   assert.match(source, /role="alert"/);
   assert.match(source, /InspectionValidationError/);
 });
+
+test("laudo mantém a ordem das dez seções do modelo de referência", async()=>{const source=await readFile(new URL("../app/app/laudos/page.tsx",import.meta.url),"utf8");let cursor=-1;for(const title of ["1. Escopo","2. Identificação","3. Documentação","4. Exames","5. Medições","6. Dispositivos","7. Calibração","8. Recomendações","9. Evidências","10. Parecer"]){const next=source.indexOf(title);assert.ok(next>cursor,`seção fora de ordem: ${title}`);cursor=next}for(const field of ["safetyCalibration","volumeDetails","pressureUnit","recommendationPlan","hydrostaticPlan","signatureData"])assert.match(source,new RegExp(field))});

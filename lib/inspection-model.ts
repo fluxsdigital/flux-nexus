@@ -1,11 +1,13 @@
 export type Answer = "COMPLIANT" | "NON_COMPLIANT" | "NOT_APPLICABLE" | "NOT_VERIFIED";
 export type Reading = { key:string; point:string; component:string; value:string; unit:string; minimum?:string; observation?:string };
-export type Device = { kind:"PSV"|"PRESSURE_GAUGE"; tag:string; manufacturer:string; serialNumber:string; range:string; setPressure:string; certificateNumber:string; calibrationDate:string; dueDate:string; result:string };
+export type Device = { kind:"PSV"|"PRESSURE_GAUGE"; tag:string; manufacturer:string; serialNumber:string; range:string; pressureUnit?:"bar"|"kPa"|"MPa"|"psi"; setPressure:string; certificateNumber:string; calibrationDate:string; periodicityYears?:number; dueDate:string; result:string };
 export type Evidence = { id?:string; type?:"GENERAL"|"IDENTIFICATION_PLATE"|"COMPONENT"|"NON_CONFORMITY"|"DOCUMENT"|"OTHER"; title:string; url?:string; dataUrl?:string; description:string; fileName?:string; mimeType?:string; size?:number; sha256?:string; capturedAt?:string; measurementKey?:string|null };
 export type InspectionTechnicalData = {
   schemaVersion:1|2;
   scope:{ equipmentKind:"PRESSURE_VESSEL"|"HEAT_EXCHANGER"; examinations:string[]; inspectionType:string; startedAt:string; finishedAt:string; artNumber:string };
   identification:{ location:string; manufacturer:string; model:string; serialNumber:string; manufactureYear:string; constructionCode:string; volume:string; fluid:string; fluidClass:string; vesselCategory:string; riskGroup:string; designPressure:string; operatingPressure:string; pmta:string; designTemperature:string; hydrostaticTestPressure:string; material:string; orientation:string; hasJacket:boolean; internalCircuitDescription:string };
+  volumeDetails?:{unit:"L"|"M3"|"T";densityKgM3?:string;calculation?:import("./volume").VolumeCalculation};
+  safetyCalibration?:{calibrated:""|"YES"|"NO";dueDate:string;evidenceIds:string[]};
   pmtaCalculation?:PmtaCalculation;
   documentation:Record<string,Answer>;
   examinations:{ externalResult:Answer; externalNotes:string; internalResult:Answer; internalNotes:string; hydrostaticPerformed:boolean; hydrostaticPressure:string; hydrostaticDuration:string; hydrostaticResult:string; hydrostaticWaiverBasis:string; accumulationPerformed:boolean; accumulationPressure:string; accumulationDuration:string; accumulationResult:string };
@@ -13,9 +15,11 @@ export type InspectionTechnicalData = {
   devices:Device[];
   calibration:{ method:string; procedure:string; ambientTemperature:string; atmosphericPressure:string; cycles:string; standardType:string; standardId:string; standardCertificate:string; standardUncertainty:string; ascendingDescending:boolean; conversionFactor:string; result:string };
   recommendations:string;
+  recommendationPlan?:{applicable:boolean;dueDate:string};
+  hydrostaticPlan?:{applicable:boolean;periodicityYears?:number;nextDate:string};
   conclusion:string;
   result:"APPROVED"|"APPROVED_WITH_RECOMMENDATIONS"|"REJECTED";
-  deadlines:{ nextExternal:string; nextInternal:string; nextHydrostatic:string; recommendationDue:string };
+  deadlines:{ nextExternal:string; nextInternal:string; nextHydrostatic:string; recommendationDue:string; externalPeriodYears?:number; internalPeriodYears?:number; hydrostaticPeriodYears?:number };
   evidence:Evidence[];
 };
 

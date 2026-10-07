@@ -1,0 +1,2 @@
+export type PeriodicityYears = 1|2|3|4|5;
+export function addCalendarYears(date:string, years:number):string { if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isInteger(years)||years<1)return ""; const [year,month,day]=date.split("-").map(Number); const lastDay=new Date(Date.UTC(year+years,month,0)).getUTCDate(); return `${year+years}-${String(month).padStart(2,"0")}-${String(Math.min(day,lastDay)).padStart(2,"0")}`; }

@@ -1,4 +1,5 @@
 import "./system.css";
+import "./corrections.css";
 import "./thumbnails.css";
 import "./report-print.css";
 import "./report-logo.css";
