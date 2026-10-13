@@ -57,3 +57,12 @@ test("conclusão atualiza as inspeções antes de abrir a fila de laudos", async
 });
 
 test("laudo mantém a ordem das dez seções do modelo de referência", async()=>{const source=await readFile(new URL("../app/app/laudos/page.tsx",import.meta.url),"utf8");let cursor=-1;for(const title of ["1. Escopo","2. Identificação","3. Documentação","4. Exames","5. Medições","6. Dispositivos","7. Calibração","8. Recomendações","9. Evidências","10. Parecer"]){const next=source.indexOf(title);assert.ok(next>cursor,`seção fora de ordem: ${title}`);cursor=next}for(const field of ["safetyCalibration","volumeDetails","pressureUnit","recommendationPlan","hydrostaticPlan","signatureData"])assert.match(source,new RegExp(field))});
+
+test("interface não expõe o conceito removido e ignora campos documentais legados", async()=>{
+  const files=["../app/layout.tsx","../app/app/inspecao/page.tsx","../app/app/laudos/page.tsx","../components/MainSections.tsx","../components/PmtaCalculationPanel.tsx","../lib/inspection-model.ts"];
+  const source=(await Promise.all(files.map(file=>readFile(new URL(file,import.meta.url),"utf8")))).join("\n");
+  assert.doesNotMatch(source,/prontu[aá]rio/i);
+  assert.doesNotMatch(source,new RegExp(`manufacturer${"Record"}`));
+  const reportSource=await readFile(new URL("../app/app/laudos/page.tsx",import.meta.url),"utf8");
+  assert.match(reportSource,/Object\.entries\(data\.documentation\)\.filter\(\(\[key\]\)=>key in fieldLabel\)/);
+});

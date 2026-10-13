@@ -4,7 +4,7 @@ import { AuthProvider } from "@/components/auth/AuthProvider";
 
 export const metadata: Metadata = {
   title: "NR NEXUS | Gestão de Inspeções e Laudos NR-13",
-  description: "Gestão completa de inspeções, prontuários e laudos técnicos NR-13.",
+  description: "Gestão completa de inspeções, documentação e laudos técnicos NR-13.",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: "/favicon.ico",
