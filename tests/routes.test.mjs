@@ -38,6 +38,7 @@ const routes = [
   ["/app/equipamentos", "Validando sessão"],
   ["/app/inspecao", "Validando sessão"],
   ["/app/laudos", "Validando sessão"],
+  ["/app/orcamentos", "Validando sessão"],
   ["/app/equipe", "Validando sessão"],
 ];
 
