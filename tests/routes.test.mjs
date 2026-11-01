@@ -38,6 +38,7 @@ const routes = [
   ["/app/equipamentos", "Validando sessão"],
   ["/app/inspecao", "Validando sessão"],
   ["/app/laudos", "Validando sessão"],
+  ["/app/servicos", "Validando sessão"],
   ["/app/orcamentos", "Validando sessão"],
   ["/app/equipe", "Validando sessão"],
 ];
@@ -66,4 +67,18 @@ test("interface não expõe o conceito removido e ignora campos documentais lega
   assert.doesNotMatch(source,new RegExp(`manufacturer${"Record"}`));
   const reportSource=await readFile(new URL("../app/app/laudos/page.tsx",import.meta.url),"utf8");
   assert.match(reportSource,/Object\.entries\(data\.documentation\)\.filter\(\(\[key\]\)=>key in fieldLabel\)/);
+});
+
+test("serviços e orçamentos possuem módulos independentes e contratos compatíveis", async()=>{
+  const shell=await readFile(new URL("../components/system/SystemShell.tsx",import.meta.url),"utf8");
+  const services=await readFile(new URL("../app/app/servicos/page.tsx",import.meta.url),"utf8");
+  const budgets=await readFile(new URL("../app/app/orcamentos/page.tsx",import.meta.url),"utf8");
+  assert.match(shell,/"\/app\/servicos","settings","Serviços"/);
+  assert.match(shell,/"\/app\/orcamentos","file","Orçamentos"/);
+  assert.match(services,/request<Service\[]>\("\/services"\)/);
+  assert.match(services,/method:editingService \? "PATCH" : "POST"/);
+  assert.doesNotMatch(budgets,/saveService|toggleService|Novo serviço/);
+  assert.match(budgets,/request<Service\[]>\("\/services"\)/);
+  assert.match(budgets,/serviceId:item\.serviceId/);
+  assert.match(budgets,/serviceNameSnapshot/);
 });
