@@ -1,6 +1,7 @@
 .reportMainTitle{margin:32px 0 22px;text-align:center;color:#111827;font-size:18px;line-height:1.25;text-transform:uppercase;letter-spacing:.04em}
 .reportCover{min-height:620px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;border:1px solid #cbd5e1;background:linear-gradient(145deg,#f8fafc,#fff)}
 .reportCover>span{color:#f26522;font-size:11px;font-weight:800;letter-spacing:.16em}.reportCover h1{max-width:520px;margin:8px 0;font-size:28px;text-transform:uppercase}.reportCover>strong{font-size:16px}.reportCover>p{margin:30px 0 0;font-size:16px}.reportCover>b{font-size:13px}.reportCover>small,.reportCover>em{color:#64748b;font-size:11px;font-style:normal}
+.reportToc{padding:28px 32px;border:1px solid #cbd5e1}.reportToc h2{margin:0 0 18px}.reportToc p{display:flex;align-items:flex-end;gap:8px;margin:8px 0}.reportToc i{flex:1;border-bottom:1px dotted #94a3b8}
 .technicalReport{font-family:Arial,"Helvetica Neue",sans-serif;font-size:11px;line-height:1.45}
 .technicalReport .reportSection{margin-top:24px}
 .technicalReport .reportSection>h2{margin:0 0 10px;padding:0 0 6px;border-bottom:1px solid #cbd5e1;color:#1e293b;font-size:13px;line-height:1.3;text-align:left;letter-spacing:.01em}
@@ -43,6 +44,7 @@
   .reportPreview>.document{display:block!important;width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important;color:#1e293b!important;border:0!important;box-shadow:none!important;overflow:visible!important}
   .technicalReport{font-size:9.5pt;line-height:1.4}
   .reportCover{min-height:242mm;box-sizing:border-box;break-after:page;page-break-after:always}.reportCover h1{font-size:22pt}.reportCover>p{margin-top:15mm}
+  .reportToc{min-height:240mm;box-sizing:border-box;padding:12mm 10mm;break-after:page;page-break-after:always}
   .docStatus{margin:0 0 5mm;padding:1.5mm 2.5mm;font-size:7pt}
   .documentTitle{min-height:12mm;padding-bottom:4mm;break-inside:avoid;page-break-inside:avoid}
   .documentTitle>span{width:10mm;height:10mm}.documentTitle b{font-size:10pt}.documentTitle small{font-size:6.5pt}.documentTitle strong{font-size:7.5pt;white-space:nowrap}
