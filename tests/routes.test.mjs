@@ -41,6 +41,9 @@ const routes = [
   ["/app/servicos", "Validando sessão"],
   ["/app/orcamentos", "Validando sessão"],
   ["/app/equipe", "Validando sessão"],
+  ["/app/configuracoes", "Validando sessão"],
+  ["/app/configuracoes/perfil", "Validando sessão"],
+  ["/app/configuracoes/identidade-visual", "Validando sessão"],
 ];
 
 for (const [route, expectedText] of routes) {
@@ -57,6 +60,8 @@ test("conclusão atualiza as inspeções antes de abrir a fila de laudos", async
   assert.match(source, /role="alert"/);
   assert.match(source, /InspectionValidationError/);
 });
+
+test("configurações separa perfil e identidade visual",async()=>{const hub=await readFile(new URL("../app/app/configuracoes/page.tsx",import.meta.url),"utf8");const editor=await readFile(new URL("../app/app/configuracoes/SettingsEditor.tsx",import.meta.url),"utf8");assert.match(hub,/configuracoes\/perfil/);assert.match(hub,/configuracoes\/identidade-visual/);assert.match(editor,/settings\/profile/);assert.match(editor,/settings\/workspace/);assert.match(editor,/OWNER","ADMIN/)});
 
 test("laudo inclui a estrutura técnica ampliada do modelo de referência", async()=>{const source=await readFile(new URL("../app/app/laudos/page.tsx",import.meta.url),"utf8");for(const title of ["Dados preliminares","Escopo da inspeção","Identificação e características","Checklist de inspeção","Medições de espessura","Componentes observados","Não conformidades","Inspeção extraordinária","Parecer conclusivo"])assert.match(source,new RegExp(title));for(const field of ["safetyCalibration","volumeDetails","pressureUnit","recommendationPlan","hydrostaticPlan","signatureData","clientSignature","conclusionDetails"])assert.match(source,new RegExp(field))});
 
