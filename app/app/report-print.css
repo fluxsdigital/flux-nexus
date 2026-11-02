@@ -1,4 +1,6 @@
 .reportMainTitle{margin:32px 0 22px;text-align:center;color:#111827;font-size:18px;line-height:1.25;text-transform:uppercase;letter-spacing:.04em}
+.reportCover{min-height:620px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;border:1px solid #cbd5e1;background:linear-gradient(145deg,#f8fafc,#fff)}
+.reportCover>span{color:#f26522;font-size:11px;font-weight:800;letter-spacing:.16em}.reportCover h1{max-width:520px;margin:8px 0;font-size:28px;text-transform:uppercase}.reportCover>strong{font-size:16px}.reportCover>p{margin:30px 0 0;font-size:16px}.reportCover>b{font-size:13px}.reportCover>small,.reportCover>em{color:#64748b;font-size:11px;font-style:normal}
 .technicalReport{font-family:Arial,"Helvetica Neue",sans-serif;font-size:11px;line-height:1.45}
 .technicalReport .reportSection{margin-top:24px}
 .technicalReport .reportSection>h2{margin:0 0 10px;padding:0 0 6px;border-bottom:1px solid #cbd5e1;color:#1e293b;font-size:13px;line-height:1.3;text-align:left;letter-spacing:.01em}
@@ -25,6 +27,8 @@
 .technicalReport .reportSignature small{font-size:8px;color:#64748b;letter-spacing:.05em}
 .technicalReport .reportSignature b{font-size:10.5px;color:#1e293b}
 .technicalReport .reportSignature span{font-size:9px;color:#475569}
+.reportSignatures{display:flex;justify-content:center;gap:28px;break-inside:avoid}.reportSignatures .signatureSpace{height:69px}
+.reportList{width:100%;margin:0;padding:10px 10px 10px 28px;background:#f8fafc}.reportList li{margin:4px 0}
 .reportFooter{margin-top:30px;padding:7px 0 0;border-top:1px solid #e2e8f0;background:transparent;color:#94a3b8;font-size:7.5px;text-align:center}
 
 @page{size:A4 portrait;margin:14mm 14mm 16mm}
@@ -37,6 +41,7 @@
   .sysMain{margin-left:0!important}
   .reportPreview>.document{display:block!important;width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important;color:#1e293b!important;border:0!important;box-shadow:none!important;overflow:visible!important}
   .technicalReport{font-size:9.5pt;line-height:1.4}
+  .reportCover{min-height:242mm;box-sizing:border-box;break-after:page;page-break-after:always}.reportCover h1{font-size:22pt}.reportCover>p{margin-top:15mm}
   .docStatus{margin:0 0 5mm;padding:1.5mm 2.5mm;font-size:7pt}
   .documentTitle{min-height:12mm;padding-bottom:4mm;break-inside:avoid;page-break-inside:avoid}
   .documentTitle>span{width:10mm;height:10mm}.documentTitle b{font-size:10pt}.documentTitle small{font-size:6.5pt}.documentTitle strong{font-size:7.5pt;white-space:nowrap}
@@ -61,7 +66,9 @@
   .reportEvidence b{font-size:8pt}.reportEvidence span{font-size:7.5pt}.reportEvidence small{font-size:6.5pt}
   .technicalReport .reportSignature{width:70mm;margin-top:9mm;padding-top:3mm}
   .technicalReport .reportSignature img{width:55mm;height:16mm}
+  .reportSignatures{gap:10mm}.reportSignatures .signatureSpace{height:19mm}
   .reportFooter{margin-top:8mm;padding:2mm 0 0!important;background:transparent!important;font-size:6pt;break-inside:avoid}
+  .pageCounter:after{content:"Página " counter(page)}
   .document h1,.document h2,.document h3,.document p,.document strong,.document b,.document span{color:inherit}
   .document .docStatus{color:#475569!important;background:#f1f5f9!important}
   .document .issuedStatus{color:#047857!important;background:#ecfdf5!important}
