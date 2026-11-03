@@ -59,6 +59,10 @@ test("conclusão atualiza as inspeções antes de abrir a fila de laudos", async
   assert.match(source, /await refreshInspections\(\);router\.push\("\/app\/laudos"\)/);
   assert.match(source, /role="alert"/);
   assert.match(source, /InspectionValidationError/);
+  assert.match(source, /if\(step===5\)validateConclusionStep\(\)/);
+  assert.match(source, /inspection-finished-at/);
+  assert.match(source, /inspection-conclusion/);
+  assert.match(source, /scrollIntoView\(\{behavior:"smooth",block:"center"\}\)/);
 });
 
 test("configurações separa perfil e identidade visual",async()=>{const hub=await readFile(new URL("../app/app/configuracoes/page.tsx",import.meta.url),"utf8");const editor=await readFile(new URL("../app/app/configuracoes/SettingsEditor.tsx",import.meta.url),"utf8");assert.match(hub,/configuracoes\/perfil/);assert.match(hub,/configuracoes\/identidade-visual/);assert.match(editor,/settings\/profile/);assert.match(editor,/settings\/workspace/);assert.match(editor,/OWNER","ADMIN/)});
