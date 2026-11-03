@@ -65,6 +65,19 @@ test("conclusão atualiza as inspeções antes de abrir a fila de laudos", async
   assert.match(source, /scrollIntoView\(\{behavior:"smooth",block:"center"\}\)/);
 });
 
+test("rascunhos de inspeção são salvos, retomados e excluídos pela área de laudos", async () => {
+  const inspection = await readFile(new URL("../app/app/inspecao/page.tsx", import.meta.url), "utf8");
+  const reports = await readFile(new URL("../app/app/laudos/page.tsx", import.meta.url), "utf8");
+  const provider = await readFile(new URL("../components/system/SystemProvider.tsx", import.meta.url), "utf8");
+  assert.match(inspection, /new URLSearchParams\(window\.location\.search\)\.get\("draft"\)/);
+  assert.match(inspection, /router\.push\(`\/app\/laudos\?draft=\$\{id\}`\)/);
+  assert.doesNotMatch(inspection, /const pending=inspections\.find/);
+  assert.match(reports, /<h2>Rascunhos<\/h2>/);
+  assert.match(reports, /href=\{`\/app\/inspecao\?draft=\$\{item\.id\}`\}/);
+  assert.match(reports, /method:"DELETE"/);
+  assert.match(provider, /IN_PROGRESS:"Rascunho"/);
+});
+
 test("configurações separa perfil e identidade visual",async()=>{const hub=await readFile(new URL("../app/app/configuracoes/page.tsx",import.meta.url),"utf8");const editor=await readFile(new URL("../app/app/configuracoes/SettingsEditor.tsx",import.meta.url),"utf8");assert.match(hub,/configuracoes\/perfil/);assert.match(hub,/configuracoes\/identidade-visual/);assert.match(editor,/settings\/profile/);assert.match(editor,/settings\/workspace/);assert.match(editor,/OWNER","ADMIN/)});
 
 test("estilos compartilhados cobrem viewports móveis e orientação horizontal",async()=>{const system=await readFile(new URL("../app/app/corrections.css",import.meta.url),"utf8");const global=await readFile(new URL("../app/globals.css",import.meta.url),"utf8");for(const width of [900,600,430,360])assert.match(system,new RegExp(`max-width:${width}px`));assert.match(system,/orientation:landscape/);assert.match(system,/min-height:44px/);assert.match(system,/overflow-x:auto/);assert.match(system,/max-height:calc\(100dvh/);assert.match(global,/font-size:16px/);assert.match(global,/touch-action:manipulation/)});

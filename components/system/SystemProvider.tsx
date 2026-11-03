@@ -16,7 +16,7 @@ const Context = createContext<Store | null>(null);
 const categoryToApi:Record<string,string>={"Vaso de pressão":"PRESSURE_VESSEL",Caldeira:"BOILER",Tubulação:"PIPING"};
 const categoryFromApi:Record<string,string>={PRESSURE_VESSEL:"Vaso de pressão",BOILER:"Caldeira",PIPING:"Tubulação",STORAGE_TANK:"Tanque de armazenamento"};
 const statusFromApi:Record<string,string>={CURRENT:"Em dia",ATTENTION:"Atenção",OVERDUE:"Vencido",INACTIVE:"Inativo"};
-const inspectionStatusFromApi:Record<string,string>={SCHEDULED:"Pendente",IN_PROGRESS:"Em andamento",COMPLETED:"Concluída",AWAITING_REPORT:"Aguardando laudo",REPORT_ISSUED:"Laudo emitido",CANCELLED:"Cancelada"};
+const inspectionStatusFromApi:Record<string,string>={SCHEDULED:"Pendente",IN_PROGRESS:"Rascunho",COMPLETED:"Concluída",AWAITING_REPORT:"Aguardando laudo",REPORT_ISSUED:"Laudo emitido",CANCELLED:"Cancelada"};
 const inspectionTypeToApi:Record<string,string>={"Periódica externa":"PERIODIC_EXTERNAL","Periódica interna":"PERIODIC_INTERNAL",Inicial:"INITIAL",Extraordinária:"EXTRAORDINARY"};
 const inspectionResultFromApi:Record<string,string>={APPROVED:"Aprovado",APPROVED_WITH_RECOMMENDATIONS:"Aprovado com recomendações",REJECTED:"Reprovado"};
 const formatDate=(value:string|null|undefined)=>value?new Date(value).toLocaleDateString("pt-BR"):"-";
