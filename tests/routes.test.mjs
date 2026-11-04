@@ -118,3 +118,12 @@ test("serviços e orçamentos possuem módulos independentes e contratos compat�
   assert.match(budgets,/serviceId:item\.serviceId/);
   assert.match(budgets,/serviceNameSnapshot/);
 });
+
+test("alinhamento do cliente aparece nos fluxos de equipamento, inspeção e orçamento",async()=>{
+  const equipment=await readFile(new URL("../app/app/equipamentos/page.tsx",import.meta.url),"utf8");
+  const inspection=await readFile(new URL("../app/app/inspecao/page.tsx",import.meta.url),"utf8");
+  const budgets=await readFile(new URL("../app/app/orcamentos/page.tsx",import.meta.url),"utf8");
+  assert.match(equipment,/EQUIPMENT_CATEGORY/);assert.match(equipment,/Adicionar categoria/);assert.doesNotMatch(equipment,/Próxima inspeção/);
+  assert.match(inspection,/CONTINUANDO RASCUNHO/);assert.match(inspection,/NOVA INSPEÇÃO/);assert.match(inspection,/bar.*psi.*kPa.*MPa/);assert.match(inspection,/Realizar também a periodicidade interna/);assert.match(inspection,/DEVICE_TYPE/);
+  assert.match(budgets,/\/budgets\/dashboard/);assert.match(budgets,/número será gerado automaticamente/i);assert.doesNotMatch(budgets,/budgetForm\.number/);
+});
