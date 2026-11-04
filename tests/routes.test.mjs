@@ -84,6 +84,18 @@ test("estilos compartilhados cobrem viewports móveis e orientação horizontal"
 
 test("laudo inclui a estrutura técnica ampliada do modelo de referência", async()=>{const source=await readFile(new URL("../app/app/laudos/page.tsx",import.meta.url),"utf8");for(const title of ["Dados preliminares","Escopo da inspeção","Identificação e características","Checklist de inspeção","Medições de espessura","Componentes observados","Não conformidades","Inspeção extraordinária","Parecer conclusivo"])assert.match(source,new RegExp(title));for(const field of ["safetyCalibration","volumeDetails","pressureUnit","recommendationPlan","hydrostaticPlan","signatureData","clientSignature","conclusionDetails"])assert.match(source,new RegExp(field))});
 
+test("reaproveitamento cria rascunho revisável sem número, evidências ou assinaturas herdadas", async()=>{
+  const reports=await readFile(new URL("../app/app/laudos/page.tsx",import.meta.url),"utf8");
+  const inspection=await readFile(new URL("../app/app/inspecao/page.tsx",import.meta.url),"utf8");
+  assert.match(reports,/Criar novo a partir deste/);
+  assert.match(reports,/\/reports\/\$\{selectedReport\.id\}\/reuse/);
+  assert.match(reports,/EVIDÊNCIAS E ASSINATURAS/);
+  assert.doesNotMatch(reports,/number:`NR-/);
+  assert.match(inspection,/RASCUNHO REAPROVEITADO/);
+  assert.match(reports,/draft=\$\{encodeURIComponent\(draft\.id\)\}/);
+  assert.match(inspection,/sourceReportId/);
+});
+
 test("interface preserva compatibilidade e ignora campos documentais desconhecidos", async()=>{
   const files=["../app/layout.tsx","../app/app/inspecao/page.tsx","../app/app/laudos/page.tsx","../components/MainSections.tsx","../components/PmtaCalculationPanel.tsx","../lib/inspection-model.ts"];
   const source=(await Promise.all(files.map(file=>readFile(new URL(file,import.meta.url),"utf8")))).join("\n");

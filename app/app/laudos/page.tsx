@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../../../components/auth/AuthProvider";
 import { Icon } from "../../../components/Icon";
 import { useSystem } from "../../../components/system/SystemProvider";
@@ -46,11 +47,14 @@ const fieldValue=(value:unknown)=>typeof value==="boolean"?(value?"Sim":"Não"):
 export default function Reports(){
   const {companies,equipment,inspections,companyFilter,refreshInspections}=useSystem();
   const {user,request}=useAuth();
+  const router=useRouter();
   const [reports,setReports]=useState<Report[]>([]);
   const [selectedInspection,setSelectedInspection]=useState<string|null>(null);
   const [selectedReport,setSelectedReport]=useState<Report|null>(null);
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState("");
+  const [reuseOpen,setReuseOpen]=useState(false);
+  const [scheduledAt,setScheduledAt]=useState(new Date().toISOString().slice(0,10));
 
   useEffect(()=>{void request<Report[]>("/reports").then(setReports).catch(e=>setError(e instanceof Error?e.message:"Falha ao carregar laudos"))},[request]);
   const ids=new Set(equipment.filter(item=>companyFilter==="all"||item.companyId===companyFilter).map(item=>item.id));
@@ -68,9 +72,19 @@ export default function Reports(){
     try{
       if(selectedLocal.status==="Concluída")await request(`/inspections/${selectedLocal.id}/transitions`,{method:"POST",body:JSON.stringify({status:"AWAITING_REPORT"})});
       const detail=await request<ApiInspection>(`/inspections/${selectedLocal.id}`);
-      const report=await request<Report>("/reports",{method:"POST",body:JSON.stringify({inspectionId:detail.id,number:`NR-${new Date().getFullYear()}-${String(reports.length+1).padStart(4,"0")}`,conclusion:detail.conclusion,recommendations:detail.recommendations})});
+      const report=await request<Report>("/reports",{method:"POST",body:JSON.stringify({inspectionId:detail.id,conclusion:detail.conclusion,recommendations:detail.recommendations})});
       setReports(items=>[report,...items]);await openReport(report);
     }catch(e){setError(e instanceof Error?e.message:"Não foi possível criar o laudo")}finally{setBusy(false)}
+  };
+  const reuse=async()=>{
+    if(!selectedReport||!scheduledAt)return;
+    setBusy(true);setError("");
+    try{
+      const draft=await request<{id:string}>(`/reports/${selectedReport.id}/reuse`,{method:"POST",body:JSON.stringify({scheduledAt:new Date(`${scheduledAt}T12:00:00`).toISOString()})});
+      await refreshInspections();
+      setReuseOpen(false);
+      router.push(`/app/inspecao?draft=${encodeURIComponent(draft.id)}`);
+    }catch(e){setError(e instanceof Error?e.message:"Não foi possível reaproveitar o laudo")}finally{setBusy(false)}
   };
   const issue=async()=>{
     if(!selectedReport)return;
@@ -137,7 +151,8 @@ export default function Reports(){
     <footer className="reportFooter">{selectedReport.number} · Rev. {data?.revision||"00"} · Documento gerado a partir do registro único da inspeção · <span className="pageCounter"/></footer>
   </article>;
 
-  return <><div className="pageHead"><div><small>DOCUMENTOS TÉCNICOS</small><h1>Laudos</h1><p>Os laudos são projeções somente leitura dos dados da inspeção.</p></div></div><div className="reportWorkspace"><aside className="reportQueues"><DraftQueue items={drafts.map(item=>({id:item.id,title:equipment.find(e=>e.id===item.equipmentId)?.name||item.id,subtitle:item.date}))} busy={busy} onDelete={id=>void deleteDraft(id)}/><Queue title="Prontos para emitir" items={ready.map(item=>({id:item.id,title:equipment.find(e=>e.id===item.equipmentId)?.name||item.id,subtitle:item.date}))} onPick={id=>{setSelectedInspection(id);setSelectedReport(null)}}/><Queue title="Em revisão" items={shown.filter(report=>report.status!=="ISSUED").map(report=>({id:report.id,title:report.number,subtitle:report.inspection.equipment.tag}))} onPick={id=>{const report=shown.find(item=>item.id===id);if(report)void openReport(report)}}/><Queue title="Laudos emitidos" items={shown.filter(report=>report.status==="ISSUED").map(report=>({id:report.id,title:report.number,subtitle:report.inspection.equipment.tag}))} onPick={id=>{const report=shown.find(item=>item.id===id);if(report)void openReport(report)}}/></aside><section className="panel reportPreview">{document}{selectedLocal&&!selectedReport&&<div className="document documentDraft"><h2>Inspeção pronta para emissão</h2><p>O laudo será gerado integralmente a partir dos dados técnicos registrados na inspeção.</p></div>}{!selectedLocal&&!selectedReport&&<p className="queueEmpty">Selecione uma inspeção ou laudo.</p>}{error&&<p className="formError">{error}</p>}<div className="reportActions">{selectedLocal&&<button className="primary" disabled={busy} onClick={emit}><Icon name="save"/>Criar laudo para revisão</button>}{selectedReport?.status!=="ISSUED"&&selectedReport&&<button className="primary" disabled={busy} onClick={issue}><Icon name="check"/>Validar e emitir</button>}{selectedReport?.status==="ISSUED"&&<button className="primary" onClick={()=>window.print()}><Icon name="download"/>Imprimir / PDF</button>}</div></section></div></>;
+  const canReuse=user&&["OWNER","ADMIN","ENGINEER"].includes(user.role);
+  return <><div className="pageHead"><div><small>DOCUMENTOS TÉCNICOS</small><h1>Laudos</h1><p>Os laudos são projeções somente leitura dos dados da inspeção.</p></div></div><div className="reportWorkspace"><aside className="reportQueues"><DraftQueue items={drafts.map(item=>({id:item.id,title:equipment.find(e=>e.id===item.equipmentId)?.name||item.id,subtitle:item.date}))} busy={busy} onDelete={id=>void deleteDraft(id)}/><Queue title="Prontos para emitir" items={ready.map(item=>({id:item.id,title:equipment.find(e=>e.id===item.equipmentId)?.name||item.id,subtitle:item.date}))} onPick={id=>{setSelectedInspection(id);setSelectedReport(null)}}/><Queue title="Em revisão" items={shown.filter(report=>report.status!=="ISSUED").map(report=>({id:report.id,title:report.number,subtitle:report.inspection.equipment.tag}))} onPick={id=>{const report=shown.find(item=>item.id===id);if(report)void openReport(report)}}/><Queue title="Laudos emitidos" items={shown.filter(report=>report.status==="ISSUED").map(report=>({id:report.id,title:report.number,subtitle:report.inspection.equipment.tag}))} onPick={id=>{const report=shown.find(item=>item.id===id);if(report)void openReport(report)}}/></aside><section className="panel reportPreview">{document}{selectedLocal&&!selectedReport&&<div className="document documentDraft"><h2>Inspeção pronta para emissão</h2><p>O laudo será gerado integralmente a partir dos dados técnicos registrados na inspeção.</p></div>}{!selectedLocal&&!selectedReport&&<p className="queueEmpty">Selecione uma inspeção ou laudo.</p>}{error&&<p className="formError">{error}</p>}<div className="reportActions">{selectedLocal&&<button className="primary" disabled={busy} onClick={emit}><Icon name="save"/>Criar laudo para revisão</button>}{selectedReport?.status!=="ISSUED"&&selectedReport&&<button className="primary" disabled={busy} onClick={issue}><Icon name="check"/>Validar e emitir</button>}{selectedReport?.status==="ISSUED"&&canReuse&&<button className="secondaryBtn" disabled={busy} onClick={()=>setReuseOpen(true)}><Icon name="plus"/>Criar novo a partir deste</button>}{selectedReport?.status==="ISSUED"&&<button className="primary" onClick={()=>window.print()}><Icon name="download"/>Imprimir / PDF</button>}</div></section></div>{reuseOpen&&selectedReport&&<div className="modal" onMouseDown={()=>!busy&&setReuseOpen(false)}><div className="dialog" role="dialog" aria-modal="true" aria-labelledby="reuse-title" onMouseDown={event=>event.stopPropagation()}><div className="panelHead"><div><small>NOVO ATENDIMENTO RECORRENTE</small><h2 id="reuse-title">Criar a partir de {selectedReport.number}</h2></div><button type="button" className="close" aria-label="Fechar" onClick={()=>setReuseOpen(false)}>×</button></div><p>Será criado um novo rascunho editável. O laudo original permanecerá inalterado e a nova numeração só será gerada depois da revisão da inspeção.</p><label>Data / competência do novo atendimento<input type="date" required value={scheduledAt} onChange={event=>setScheduledAt(event.target.value)}/></label><div className="inspectionContext"><small>EVIDÊNCIAS E ASSINATURAS</small><b>Não serão copiadas</b><span>Fotos, anexos, assinaturas, datas de emissão e histórico precisam ser registrados novamente para preservar a rastreabilidade.</span></div>{error&&<p className="formError" role="alert">{error}</p>}<button type="button" className="primary" disabled={busy||!scheduledAt} onClick={()=>void reuse()}><Icon name="plus"/>{busy?"Criando…":"Criar rascunho e revisar"}</button></div></div>}</>;
 }
 
 function DraftQueue({items,busy,onDelete}:{items:{id:string;title:string;subtitle:string}[];busy:boolean;onDelete:(id:string)=>void}){return <section className="panel reportQueue"><div className="queueHeader"><div><small>INSPEÇÕES NÃO CONCLUÍDAS</small><h2>Rascunhos</h2></div><strong>{items.length}</strong></div>{items.length?items.map(item=><article className="reportItem draftReportItem" key={item.id}><Icon name="file"/><span><b>{item.title}</b><small>{item.subtitle}</small></span><div><Link className="secondaryBtn" href={`/app/inspecao?draft=${item.id}`}>Continuar</Link><button type="button" className="removeBtn" disabled={busy} onClick={()=>onDelete(item.id)}>Excluir</button></div></article>):<p className="queueEmpty">Nenhum rascunho.</p>}</section>}
