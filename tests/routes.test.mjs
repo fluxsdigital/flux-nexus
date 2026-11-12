@@ -44,6 +44,10 @@ const routes = [
   ["/app/configuracoes", "Validando sessão"],
   ["/app/configuracoes/perfil", "Validando sessão"],
   ["/app/configuracoes/identidade-visual", "Validando sessão"],
+  ["/app/cadastros", "Validando sessão"],
+  ["/app/cadastros/tipos-equipamento", "Validando sessão"],
+  ["/app/cadastros/fabricantes", "Validando sessão"],
+  ["/app/cadastros/tipos-dispositivo", "Validando sessão"],
 ];
 
 for (const [route, expectedText] of routes) {
@@ -123,11 +127,24 @@ test("serviços e orçamentos possuem módulos independentes e contratos compat�
   assert.match(budgets,/serviceNameSnapshot/);
 });
 
+test("cadastros agrupa entradas e mantém equipamentos e serviços separados",async()=>{
+  const shell=await readFile(new URL("../components/system/SystemShell.tsx",import.meta.url),"utf8");
+  const hub=await readFile(new URL("../app/app/cadastros/page.tsx",import.meta.url),"utf8");
+  assert.match(shell,/label:"Cadastros"/);
+  assert.match(shell,/item\("\/app\/equipamentos","equipment","Equipamentos"/);
+  assert.match(shell,/item\("\/app\/servicos","settings","Serviços"/);
+  assert.match(hub,/href:"\/app\/equipamentos"/);
+  assert.match(hub,/href:"\/app\/servicos"/);
+  assert.match(hub,/Tipos de equipamento/);
+  assert.match(hub,/Fabricantes e marcas/);
+  assert.match(hub,/Tipos de dispositivo/);
+});
+
 test("alinhamento do cliente aparece nos fluxos de equipamento, inspeção e orçamento",async()=>{
   const equipment=await readFile(new URL("../app/app/equipamentos/page.tsx",import.meta.url),"utf8");
   const inspection=await readFile(new URL("../app/app/inspecao/page.tsx",import.meta.url),"utf8");
   const budgets=await readFile(new URL("../app/app/orcamentos/page.tsx",import.meta.url),"utf8");
-  assert.match(equipment,/EQUIPMENT_CATEGORY/);assert.match(equipment,/Adicionar categoria/);assert.doesNotMatch(equipment,/Próxima inspeção/);
+  assert.match(equipment,/EQUIPMENT_CATEGORY/);assert.match(equipment,/Adicionar tipo/);assert.doesNotMatch(equipment,/Próxima inspeção/);
   assert.match(inspection,/CONTINUANDO RASCUNHO/);assert.match(inspection,/NOVA INSPEÇÃO/);assert.match(inspection,/bar.*psi.*kPa.*MPa/);assert.match(inspection,/Realizar também a periodicidade interna/);assert.match(inspection,/DEVICE_TYPE/);
   assert.match(budgets,/\/budgets\/dashboard/);assert.match(budgets,/número será gerado automaticamente/i);assert.doesNotMatch(budgets,/budgetForm\.number/);
 });

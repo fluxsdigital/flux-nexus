@@ -1,0 +1,1 @@
+import {CatalogManager} from "../../../../components/catalogs/CatalogManager";export default function DeviceTypesPage(){return <CatalogManager title="Tipos de dispositivo" description="Dispositivos de segurança e medição disponíveis nas inspeções." endpoint="/catalogs?kind=DEVICE_TYPE" kind="DEVICE_TYPE" newLabel="Novo tipo"/>}

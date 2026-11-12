@@ -1,0 +1,1 @@
+import {CatalogManager} from "../../../../components/catalogs/CatalogManager";export default function EquipmentTypesPage(){return <CatalogManager title="Tipos de equipamento" description="Tipos personalizados usados no cadastro dos ativos." endpoint="/catalogs?kind=EQUIPMENT_CATEGORY" kind="EQUIPMENT_CATEGORY" newLabel="Novo tipo"/>}

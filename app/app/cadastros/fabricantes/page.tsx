@@ -1,0 +1,1 @@
+import {CatalogManager} from "../../../../components/catalogs/CatalogManager";export default function ManufacturersPage(){return <CatalogManager title="Fabricantes e marcas" description="Catálogo compartilhado pelos equipamentos e pelas inspeções." endpoint="/manufacturers" newLabel="Novo fabricante"/>}
